@@ -1,5 +1,5 @@
-from app.controller.data import temperature
-from app.controller.parser import html
+from app.controller.cptec.data import temperature
+from app.controller.cptec.parser import html
 import imgkit
 
 __OUT_HTML_FILE = 'out/out.html'
@@ -9,7 +9,7 @@ __OPTIONS_JPG = {
     'height': '1920',
 }
 
-def report(citie_group=[['cuiaba', 'juina', 'alta_floresta', 'vila_rica', 'barra_do_garcas', 'rondonopolis'], ['caceres', 'tangara_da_serra', 'diamantino', 'sorriso', 'juara', 'sinop']]):
+def cptec(citie_group=[['cuiaba', 'juina', 'alta_floresta', 'vila_rica', 'barra_do_garcas', 'rondonopolis'], ['caceres', 'tangara_da_serra', 'diamantino', 'sorriso', 'juara', 'sinop']]):
 
     model = open('app/view/model.html', 'r').read()
 

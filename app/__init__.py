@@ -1,3 +1,3 @@
-from app.controller.make import report
+from app.controller.cptec.make import cptec
 
-report = report
+report = cptec
