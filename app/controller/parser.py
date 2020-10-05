@@ -1,4 +1,4 @@
-from view.module import DISPLAY, TITTLE
+from app.view.module import DISPLAY, TITTLE
 from datetime import date
 
 __DAYS = [
