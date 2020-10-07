@@ -13,7 +13,7 @@ __DAYS = [
 
 __TODAY = date.today()
 
-def html(data=[]):
+def parser(data=[]):
 
     if(type(data) == list) :
         climate = ''

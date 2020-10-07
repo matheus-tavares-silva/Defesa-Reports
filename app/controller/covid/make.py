@@ -1,5 +1,5 @@
-from app.controller.covid.data import panel
-from app.controller.covid.parser import html
+from app.controller.covid.data import data
+from app.controller.covid.parser import parser
 import imgkit
 
 __OUT_HTML_FILE = 'out/insta_covid.html'
@@ -10,9 +10,9 @@ __OPTIONS_JPG = {
 }
 
 
-def covid():
+def make():
 
-    info = html(panel())
+    info = parser(data())
 
     with open(__OUT_HTML_FILE, 'w+') as file:
         file.write(info)

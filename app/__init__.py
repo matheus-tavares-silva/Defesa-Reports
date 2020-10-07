@@ -1,5 +1,5 @@
-from app.controller.cptec.make import cptec
-from app.controller.covid.make import covid
+from app.controller.cptec import cptec
+from app.controller.covid import covid
 
 
 report = {

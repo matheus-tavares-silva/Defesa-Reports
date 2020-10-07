@@ -1,5 +1,5 @@
-from app.controller.cptec.data import temperature
-from app.controller.cptec.parser import html
+from app.controller.cptec.data import data
+from app.controller.cptec.parser import parser
 import imgkit
 
 __OUT_HTML_FILE = 'out/out.html'
@@ -9,21 +9,21 @@ __OPTIONS_JPG = {
     'height': '1920',
 }
 
-def cptec(citie_group=[['cuiaba', 'juina', 'alta_floresta', 'vila_rica', 'barra_do_garcas', 'rondonopolis'], ['caceres', 'tangara_da_serra', 'diamantino', 'sorriso', 'juara', 'sinop']]):
+def make(citie_group=[['cuiaba', 'juina', 'alta_floresta', 'vila_rica', 'barra_do_garcas', 'rondonopolis'], ['caceres', 'tangara_da_serra', 'diamantino', 'sorriso', 'juara', 'sinop']]):
 
     model = open('app/view/model.html', 'r').read()
 
     position = 0
     for group in citie_group:
 
-        data = html(temperature(group))
+        values = parser(data(group))
 
         try:
             with open(__OUT_HTML_FILE, 'w+') as file:
                 file.write(model.replace(
                     '{%DISPLAY%}', 
-                    data['display']).replace(
-                        '{%TITLE%}', data['tittle']
+                    values['display']).replace(
+                        '{%TITLE%}', values['tittle']
                     )
                 )
 

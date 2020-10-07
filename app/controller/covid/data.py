@@ -26,7 +26,7 @@ __XPATH_TABLE = {
 __BTN_TABLE = '/html/body/div[1]/ui-view/div/div[1]/div/div/div/div/exploration-container/exploration-container-modern/div/div/div/exploration-host/div/div/exploration/div/explore-canvas-modern/div/div[2]/div/div[2]/div[2]/visual-container-repeat/visual-container-modern[14]/transform/div/div[3]/div/visual-modern/div/div/div[2]/div[1]/div[2]/div/div[3]'
 
 
-def panel():
+def data():
     os.environ['MOZ_HEADLESS'] = '1' #-- Uncomment to show driver
     driver = webdriver.Firefox(executable_path=__GECKO)
 

@@ -5,7 +5,7 @@ __YESTERDAY = datetime.now() - timedelta(1)
 __MODEL_FILE = 'app/view/model_insta_corona.html'
 
 
-def html(data=[]):
+def parser(data=[]):
 
     model = open(__MODEL_FILE, 'r').read()
 

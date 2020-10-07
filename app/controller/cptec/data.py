@@ -9,7 +9,7 @@ __XPATH_TEMP = {'min': '/html/body/div[2]/div[5]/div[1]/div/div[2]/div[4]/div[1]
                 'icon': '/html/body/div[2]/div[5]/div[1]/div/div[2]/div[2]/a/img/@src'}
 
 
-def temperature(city=['cuiaba']):
+def data(city=['cuiaba']):
     value = []
 
     if(type(city) is list):
