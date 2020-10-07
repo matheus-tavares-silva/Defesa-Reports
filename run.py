@@ -1,3 +1,4 @@
 import app
 
-app.report()
+app.report['cptec']()
+app.report['covid']()
