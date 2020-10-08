@@ -1,11 +1,11 @@
 from app.controller.covid.data import data
 from app.controller.covid.parser import parser
+from app.controller.folder import folder
 import tempfile
 import imgkit
 
-__OUT_HTML_FILE = 'out/covid.html'
-__OUT_HTML_JPG = 'out/covid-*.jpg'
-
+__OUT_PATH = folder()
+__OUT_NAME = 'covid-*.jpg'
 __OPTIONS_JPG = [
     {
         'width': '1080',
@@ -30,7 +30,7 @@ def make():
 
         imgkit.from_file(
             file.name,
-            __OUT_HTML_JPG.replace('*', str(count)),
+            (__OUT_PATH + '/' + __OUT_NAME).replace('*', str(count)),
             options=__OPTIONS_JPG[count - 1]
         )
 

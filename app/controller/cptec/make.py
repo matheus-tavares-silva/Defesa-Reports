@@ -1,10 +1,11 @@
 from app.controller.cptec.data import data
 from app.controller.cptec.parser import parser
+from app.controller.folder import folder
 import tempfile
 import imgkit
 
-__OUT_HTML_FILE = 'out/cptec.html'
-__OUT_HTML_JPG = 'out/cptec-*.jpg'
+__OUT_PATH = folder()
+__OUT_NAME = 'cptec-*.jpg'
 __OPTIONS_JPG = {
     'width': '1080',
     'height': '1920',
@@ -22,7 +23,7 @@ def make():
 
         imgkit.from_file(
             file.name,
-            __OUT_HTML_JPG.replace('*', str(count)),
+            (__OUT_PATH + '/' + __OUT_NAME).replace('*', str(count)),
             options=__OPTIONS_JPG
         )
 
