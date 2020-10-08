@@ -1,4 +1,4 @@
 import app
 
-#app.report['cptec']()
-app.report['covid']()
+app.report['cptec']()
+#app.report['covid']()

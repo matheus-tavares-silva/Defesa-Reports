@@ -8,26 +8,33 @@ __XPATH_TEMP = {'min': '/html/body/div[2]/div[5]/div[1]/div/div[2]/div[4]/div[1]
                 'city': '/html/body/div[2]/div[5]/div[1]/div/h2',
                 'icon': '/html/body/div[2]/div[5]/div[1]/div/div[2]/div[2]/a/img/@src'}
 
+__DEFAULT_CITIES = citie_group=[['cuiaba', 'juina', 'alta_floresta', 'vila_rica', 'barra_do_garcas', 'rondonopolis'], ['caceres', 'tangara_da_serra', 'diamantino', 'sorriso', 'juara', 'sinop']]
 
-def data(city=['cuiaba']):
-    value = []
 
-    if(type(city) is list):
-        for c in city:
-            try:
-                response = html.fromstring(requests.get(__LINK + c).content)
-            except:
-                pass
-            else:
-                model = {'min': '', 'max': '', 'city': '', 'icon': ''}
-                for data in __XPATH_TEMP:
-                    if(data == 'icon'):
-                        model[data] = response.xpath(__XPATH_TEMP[data])[0]
-                    else:
-                        model[data] = response.xpath(__XPATH_TEMP[data])[0].text_content().replace(u'\xa0', u'').replace('/MT', '')
+def data(cities=__DEFAULT_CITIES):
 
-            value.append(model)
+    if(type(cities) is list):
+        total = []
+        for group in cities:
+            values = []
+            for city in group:
+                try:
+                    response = html.fromstring(requests.get(__LINK + city).content)
+                except:
+                    pass
+                else:
+                    model = {'min': '', 'max': '', 'city': '', 'icon': ''}
 
-        return value
+                    for path in __XPATH_TEMP:
+
+                        if(path == 'icon'):
+                            model[path] = response.xpath(__XPATH_TEMP[path])[0]
+                        else:
+                            model[path] = response.xpath(__XPATH_TEMP[path])[0].text_content().replace(u'\xa0', u'').replace('/MT', '')
+                    
+                values.append(model)
+            total.append(values)
+
+        return total
     
     return None

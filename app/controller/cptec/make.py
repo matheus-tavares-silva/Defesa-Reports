@@ -1,40 +1,32 @@
 from app.controller.cptec.data import data
 from app.controller.cptec.parser import parser
+import tempfile
 import imgkit
 
-__OUT_HTML_FILE = 'out/out.html'
-__OUT_HTML_JPG = 'out/out-*.jpg'
+__OUT_HTML_FILE = 'out/cptec.html'
+__OUT_HTML_JPG = 'out/cptec-*.jpg'
 __OPTIONS_JPG = {
     'width': '1080',
     'height': '1920',
 }
 
-def make(citie_group=[['cuiaba', 'juina', 'alta_floresta', 'vila_rica', 'barra_do_garcas', 'rondonopolis'], ['caceres', 'tangara_da_serra', 'diamantino', 'sorriso', 'juara', 'sinop']]):
+def make():
 
-    model = open('app/view/model.html', 'r').read()
+    html = parser(data())
 
-    position = 0
-    for group in citie_group:
+    count = 1
+    for page in html:
+        file = tempfile.NamedTemporaryFile(mode='w+', suffix='.html')
+        
+        file.write(page)
 
-        values = parser(data(group))
+        imgkit.from_file(
+            file.name,
+            __OUT_HTML_JPG.replace('*', str(count)),
+            options=__OPTIONS_JPG
+        )
 
-        try:
-            with open(__OUT_HTML_FILE, 'w+') as file:
-                file.write(model.replace(
-                    '{%DISPLAY%}', 
-                    values['display']).replace(
-                        '{%TITLE%}', values['tittle']
-                    )
-                )
-
-            position += 1
-        except:
-            return False
-        else:
-            imgkit.from_file(
-                __OUT_HTML_FILE, 
-                __OUT_HTML_JPG.replace('*', str(position)),
-                options=__OPTIONS_JPG
-            )
+        file.close()
+        count += 1
 
     return True

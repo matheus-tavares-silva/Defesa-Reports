@@ -1,5 +1,26 @@
-from app.view.module import DISPLAY, TITTLE
 from datetime import date
+
+DISPLAY = \
+'''
+<div class="climate">
+    <div class="local">
+      <h1 style="color: white">{%CITY%}</h1>
+      <img src="{%SRC%}" />
+    </div>
+    <div class="temperature">
+      <h1 class="min">{%TEMP_MIN%}</h1>
+      <h1 class="max">{%TEMP_MAX%}</h1>
+    </div>
+</div>
+'''
+
+TITTLE = \
+    '''
+<div class="title">
+  <h4 class="day">{%DAY%}</h4>
+  <h4 class="date">{%DATE%}</h4>
+</div>
+'''
 
 __DAYS = [
     'SEGUNDA-FEIRA',
@@ -13,22 +34,36 @@ __DAYS = [
 
 __TODAY = date.today()
 
+__OUT_HTML_FILE = 'out/out.html'
+
+DATA = [
+    [{'min': '26°', 'max': '41°', 'city': 'Cuiabá', 'icon': 'https://s1.cptec.inpe.br/webcptec/common/assets/images/icones/tempo/icones-grandes/pn.png'}, {'min': '19°', 'max': '35°', 'city': 'Juína', 'icon': 'https://s1.cptec.inpe.br/webcptec/common/assets/images/icones/tempo/icones-grandes/pp.png'}, {'min': '20°', 'max': '35°', 'city': 'Alta Floresta', 'icon': 'https://s1.cptec.inpe.br/webcptec/common/assets/images/icones/tempo/icones-grandes/pp.png'}, {'min': '20°', 'max': '40°', 'city': 'Vila Rica', 'icon': 'https://s1.cptec.inpe.br/webcptec/common/assets/images/icones/tempo/icones-grandes/pn.png'}, {'min': '20°', 'max': '41°', 'city': 'Barra do Garças', 'icon': 'https://s1.cptec.inpe.br/webcptec/common/assets/images/icones/tempo/icones-grandes/ps.png'}, {'min': '22°', 'max': '41°', 'city': 'Rondonópolis', 'icon': 'https://s1.cptec.inpe.br/webcptec/common/assets/images/icones/tempo/icones-grandes/pn.png'}],
+    [{'min': '24°', 'max': '40°', 'city': 'Cáceres', 'icon': 'https://s1.cptec.inpe.br/webcptec/common/assets/images/icones/tempo/icones-grandes/pn.png'}, {'min': '23°', 'max': '38°', 'city': 'Tangará da Serra', 'icon': 'https://s1.cptec.inpe.br/webcptec/common/assets/images/icones/tempo/icones-grandes/pn.png'}, {'min': '23°', 'max': '41°', 'city': 'Diamantino', 'icon': 'https://s1.cptec.inpe.br/webcptec/common/assets/images/icones/tempo/icones-grandes/pn.png'}, {'min': '18°', 'max': '39°', 'city': 'Sorriso', 'icon': 'https://s1.cptec.inpe.br/webcptec/common/assets/images/icones/tempo/icones-grandes/pn.png'}, {'min': '20°', 'max': '36°', 'city': 'Juara', 'icon': 'https://s1.cptec.inpe.br/webcptec/common/assets/images/icones/tempo/icones-grandes/pp.png'}, {'min': '18°', 'max': '38°', 'city': 'Sinop', 'icon': 'https://s1.cptec.inpe.br/webcptec/common/assets/images/icones/tempo/icones-grandes/pn.png'}]
+]
+
 def parser(data=[]):
 
-    if(type(data) == list) :
-        climate = ''
+    models = []
+    model = open('app/view/model.html', 'r').read()
 
-        for d in data:
-            climate += DISPLAY.replace('{%CITY%}', d['city'].upper()) \
-                .replace('{%SRC%}', d['icon']) \
-                .replace('{%TEMP_MIN%}', d['min']) \
-                .replace('{%TEMP_MAX%}', d['max'])
-        
+    for group in data:
+        if(type(data) == list):
+            climate = ''
 
-        day = __DAYS[__TODAY.weekday()]
-        month = __TODAY.strftime('%d/%m/%Y')
+            for d in group:
+                climate += DISPLAY.replace('{%CITY%}', d['city'].upper()) \
+                    .replace('{%SRC%}', d['icon']) \
+                    .replace('{%TEMP_MIN%}', d['min']) \
+                    .replace('{%TEMP_MAX%}', d['max'])
 
-        tittle = TITTLE.replace('{%DAY%}', day).replace('{%DATE%}', month)
+            day = __DAYS[__TODAY.weekday()]
+            month = __TODAY.strftime('%d/%m/%Y')
 
+            tittle = TITTLE.replace('{%DAY%}', day).replace('{%DATE%}', month)
 
-    return {'display' : climate, 'tittle' : tittle}
+        models.append(
+            model.replace('{%DISPLAY%}',climate) \
+                .replace('{%TITLE%}', tittle)
+        )
+    
+    return models

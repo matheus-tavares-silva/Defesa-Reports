@@ -20,13 +20,13 @@ __OPTIONS_JPG = [
 
 def make():
 
-    info = parser(data())
+    html = parser(data())
 
     count = 1
-    for html in info:
+    for page in html:
         file = tempfile.NamedTemporaryFile(mode='w+', suffix='.html')
         
-        file.write(html)
+        file.write(page)
 
         imgkit.from_file(
             file.name,
