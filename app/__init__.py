@@ -1,11 +1,14 @@
-from app.controller.cptec import cptec
-from app.controller.covid import covid
+from app.controller.cptec.make import make as cptec
+from app.controller.covid.make import make as covid
+from app.controller.bot.chat import chat
 import threading
 
-threads = [threading.Thread(target=cptec), threading.Thread(target=covid)]
+#threads = [threading.Thread(target=cptec), threading.Thread(target=covid)]
 
 def run(): 
-    for thread in threads:
-        thread.start()
+    chat()
+    #for thread in threads:
+    #    thread.start() 
     
     return None
+    

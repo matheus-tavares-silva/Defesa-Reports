@@ -18,3 +18,6 @@ def folder(path='/home/s0berano/Documents'):
         return False
 
     return today_folder
+
+if __name__ == "__main__":
+    folder()
