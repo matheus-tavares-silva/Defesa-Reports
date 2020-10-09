@@ -37,6 +37,7 @@ def chat():
             context.bot.send_message(chat_id=update.effective_chat.id, text=messages['unknown'])
 
 
+
     start_handler = CommandHandler('start', start)
     report_weather = MessageHandler(Filters.text & (~Filters.command), report_weather)
 
