@@ -29,16 +29,16 @@ def make():
         html = parser(data())
 
         for index, page in enumerate(html):
-                file = tempfile.NamedTemporaryFile(mode='w+', suffix='.html')        
+            file = tempfile.NamedTemporaryFile(mode='w+', suffix='.html')        
 
-                file.write(page)
+            file.write(page)
 
-                imgkit.from_file(
-                    file.name,
-                    __OUT_FILES[index],
-                    options=__OPTIONS_JPG[index]
-                )
+            imgkit.from_file(
+                file.name,
+                __OUT_FILES[index],
+                options=__OPTIONS_JPG[index]
+            )
 
-                file.close()
+            file.close()
 
     return __OUT_FILES

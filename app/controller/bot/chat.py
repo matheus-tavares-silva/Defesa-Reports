@@ -4,6 +4,7 @@ from telegram.ext import CommandHandler
 from telegram.ext import MessageHandler, Filters
 from ..cptec.make import make as cptec
 from ..covid.make import make as covid
+from ..alerts.make import make as alerts
 from .messages import messages
 import logging
 
@@ -33,6 +34,13 @@ def chat():
 
             for doc in covid():
                 context.bot.send_photo(chat_id=update.effective_chat.id, photo=open(doc, 'rb'))
+        elif(update.message.text == '3'):
+
+            context.bot.send_message(chat_id=update.effective_chat.id, text=messages['generate']['alerts'])
+
+            for alert in alerts():
+                context.bot.send_photo(chat_id=update.effective_chat.id, photo=open(alert['file'], 'rb'), caption=alert['message'])
+            
         else:
             context.bot.send_message(chat_id=update.effective_chat.id, text=messages['unknown'])
 

@@ -10,7 +10,6 @@ __XPATH_TEMP = {'min': '/html/body/div[2]/div[5]/div[1]/div/div[2]/div[4]/div[1]
 
 __DEFAULT_CITIES = citie_group=[['cuiaba', 'juina', 'alta_floresta', 'vila_rica', 'barra_do_garcas', 'rondonopolis'], ['caceres', 'tangara_da_serra', 'diamantino', 'sorriso', 'juara', 'sinop']]
 
-
 def data(cities=__DEFAULT_CITIES):
 
     if(type(cities) is list):
