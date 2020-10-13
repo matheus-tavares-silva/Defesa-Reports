@@ -9,6 +9,7 @@ __OUT_FILES = [(folder() + '/' + 'cptec-*.jpg').replace('*', str((index + 1))) f
 __OPTIONS_JPG = {
     'width': '1080',
     'height': '1920',
+    "xvfb": ""
 }
 
 def make():

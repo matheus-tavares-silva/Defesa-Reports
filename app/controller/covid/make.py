@@ -10,10 +10,12 @@ __OPTIONS_JPG = [
     {
         'width': '1080',
         'height': '1920',
+        "xvfb": ""
     },
     {
         'width': '1080',
         'height': '1080',
+        "xvfb": ""
     }
 ]
 
