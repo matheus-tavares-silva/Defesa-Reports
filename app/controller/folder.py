@@ -1,7 +1,7 @@
 import os
 from datetime import date, datetime
 
-__DEFAULT_FOLDER = 'out'
+__DEFAULT_FOLDER = './out'
 
 def folder():
     today = '/' + datetime.today().strftime('%d-%m-%Y')

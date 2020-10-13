@@ -7,3 +7,5 @@
     sudo apt install wkhtmltopdf
 
     sudo apt install firefox
+
+    sudo apt-get install xvfb

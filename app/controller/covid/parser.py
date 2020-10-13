@@ -2,7 +2,7 @@ from datetime import datetime, timedelta
 
 __YESTERDAY = datetime.now() - timedelta(1)
 
-__MODEL_FILES = ['app/view/model_insta_corona.html', 'app/view/model_corona.html']
+__MODEL_FILES = ['./app/view/model_insta_corona.html', './app/view/model_corona.html']
 
 
 def parser(data=[]):

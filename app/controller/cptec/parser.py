@@ -1,6 +1,6 @@
 from datetime import date
 
-DISPLAY = \
+__DISPLAY = \
 '''
 <div class="climate">
     <div class="local">
@@ -14,7 +14,7 @@ DISPLAY = \
 </div>
 '''
 
-TITTLE = \
+__TITTLE = \
     '''
 <div class="title">
   <h4 class="day">{%DAY%}</h4>
@@ -34,7 +34,7 @@ __DAYS = [
 
 __TODAY = date.today()
 
-__OUT_HTML_FILE = 'out/out.html'
+__MODEL_FILE = './app/view/model_weather.html'
 
 DATA = [
     [{'min': '26°', 'max': '41°', 'city': 'Cuiabá', 'icon': 'https://s1.cptec.inpe.br/webcptec/common/assets/images/icones/tempo/icones-grandes/pn.png'}, {'min': '19°', 'max': '35°', 'city': 'Juína', 'icon': 'https://s1.cptec.inpe.br/webcptec/common/assets/images/icones/tempo/icones-grandes/pp.png'}, {'min': '20°', 'max': '35°', 'city': 'Alta Floresta', 'icon': 'https://s1.cptec.inpe.br/webcptec/common/assets/images/icones/tempo/icones-grandes/pp.png'}, {'min': '20°', 'max': '40°', 'city': 'Vila Rica', 'icon': 'https://s1.cptec.inpe.br/webcptec/common/assets/images/icones/tempo/icones-grandes/pn.png'}, {'min': '20°', 'max': '41°', 'city': 'Barra do Garças', 'icon': 'https://s1.cptec.inpe.br/webcptec/common/assets/images/icones/tempo/icones-grandes/ps.png'}, {'min': '22°', 'max': '41°', 'city': 'Rondonópolis', 'icon': 'https://s1.cptec.inpe.br/webcptec/common/assets/images/icones/tempo/icones-grandes/pn.png'}],
@@ -44,14 +44,14 @@ DATA = [
 def parser(data=[]):
 
     models = []
-    model = open('app/view/model.html', 'r').read()
+    model = open(__MODEL_FILE, 'r').read()
 
     for group in data:
         if(type(data) == list):
             climate = ''
 
             for d in group:
-                climate += DISPLAY.replace('{%CITY%}', d['city'].upper()) \
+                climate += __DISPLAY.replace('{%CITY%}', d['city'].upper()) \
                     .replace('{%SRC%}', d['icon']) \
                     .replace('{%TEMP_MIN%}', d['min']) \
                     .replace('{%TEMP_MAX%}', d['max'])
@@ -59,11 +59,13 @@ def parser(data=[]):
             day = __DAYS[__TODAY.weekday()]
             month = __TODAY.strftime('%d/%m/%Y')
 
-            tittle = TITTLE.replace('{%DAY%}', day).replace('{%DATE%}', month)
+            tittle = __TITTLE.replace('{%DAY%}', day).replace('{%DATE%}', month)
 
         models.append(
             model.replace('{%DISPLAY%}',climate) \
                 .replace('{%TITLE%}', tittle)
         )
+    
+    
     
     return models
