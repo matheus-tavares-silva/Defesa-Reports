@@ -3,7 +3,7 @@ import requests
 
 __LINK = 'https://www.cptec.inpe.br/previsao-tempo/mt/'
 
-__XPATH_TEMP = {'min': '/html/body/div[2]/div[5]/div[1]/div/div[2]/div[4]/div[1]/span',
+__XPATH = {'min': '/html/body/div[2]/div[5]/div[1]/div/div[2]/div[4]/div[1]/span',
                 'max': '/html/body/div[2]/div[5]/div[1]/div/div[2]/div[4]/div[2]/span',
                 'city': '/html/body/div[2]/div[5]/div[1]/div/h2',
                 'icon': '/html/body/div[2]/div[5]/div[1]/div/div[2]/div[2]/a/img/@src'}
@@ -24,12 +24,12 @@ def data(cities=__DEFAULT_CITIES):
                 else:
                     model = {'min': '', 'max': '', 'city': '', 'icon': ''}
 
-                    for path in __XPATH_TEMP:
+                    for path in __XPATH:
 
                         if(path == 'icon'):
-                            model[path] = response.xpath(__XPATH_TEMP[path])[0]
+                            model[path] = response.xpath(__XPATH[path])[0]
                         else:
-                            model[path] = response.xpath(__XPATH_TEMP[path])[0].text_content().replace(u'\xa0', u'').replace('/MT', '')
+                            model[path] = response.xpath(__XPATH[path])[0].text_content().replace(u'\xa0', u'').replace('/MT', '')
                     
                 values.append(model)
             total.append(values)

@@ -9,12 +9,9 @@ from .messages import messages
 import logging
 
 __TOKEN = '1365811077:AAFXUgzOk9N9lissQ0-ikTlODc9Hc43qX2A'
+__OPTIONS = {'cptec' : cptec, 'covid' : covid, 'alerts' : alerts}
 
 def chat():
-    updater = Updater(token=__TOKEN, use_context=True)
-
-    dispatcher = updater.dispatcher
-
     logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
                         level=logging.INFO)
 
@@ -22,30 +19,22 @@ def chat():
         context.bot.send_message(chat_id=update.effective_chat.id, text=messages['welcome'])
 
     def report_weather(update, context):
-        if(update.message.text == '1'):
-            
-            context.bot.send_message(chat_id=update.effective_chat.id, text=messages['generate']['cptec'])
+        index = int(update.message.text) if update.message.text in [str(i) for i in range(1,10)] else 0
 
-            for doc in cptec():
-                context.bot.send_photo(chat_id=update.effective_chat.id, photo=open(doc, 'rb'))
-        elif(update.message.text == '2'):
-            
-            context.bot.send_message(chat_id=update.effective_chat.id, text=messages['generate']['covid'])
+        if(index >= 1 and index <= len(__OPTIONS)):
+            key = list(__OPTIONS.keys())[index - 1]
+            context.bot.send_message(chat_id=update.effective_chat.id, text=messages['generate'][key])
 
-            for doc in covid():
-                context.bot.send_photo(chat_id=update.effective_chat.id, photo=open(doc, 'rb'))
-        elif(update.message.text == '3'):
+            content = __OPTIONS[key]()
 
-            context.bot.send_message(chat_id=update.effective_chat.id, text=messages['generate']['alerts'])
-
-            for alert in alerts():
-                context.bot.send_photo(chat_id=update.effective_chat.id, photo=open(alert['file'], 'rb'), caption=alert['message'])
-            
+            for data in content:
+                context.bot.send_photo(chat_id=update.effective_chat.id, photo=open(data['file'], 'rb'), caption=data['message'])
         else:
             context.bot.send_message(chat_id=update.effective_chat.id, text=messages['unknown'])
 
 
-
+    updater = Updater(token=__TOKEN, use_context=True)
+    dispatcher = updater.dispatcher
     start_handler = CommandHandler('start', start)
     report_weather = MessageHandler(Filters.text & (~Filters.command), report_weather)
 

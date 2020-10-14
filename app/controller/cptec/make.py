@@ -1,36 +1,45 @@
 from app.controller.cptec.data import data
 from app.controller.cptec.parser import parser
 from app.controller.folder import folder
+from glob import glob
 import os
 import tempfile
 import imgkit
 
-__OUT_FILES = [(folder() + '/' + 'cptec-*.jpg').replace('*', str((index + 1))) for index in range(2)]
 __OPTIONS_JPG = {
     'width': '1080',
     'height': '1920',
     'xvfb': ''
 }
 
-def make():
+__NAME = 'cptec'
 
-    files = [True if os.path.exists(path) else False for path in __OUT_FILES ]
-        
-    if(False in files):
+def make():
+    path = '{}/{}-*.jpg'.format(folder(), __NAME)
+    files = glob(path)
+
+    alerts = []
+
+    if(not files):
         html = parser(data())
 
         for index, page in enumerate(html):
-
+            out = path.replace('*', str(index + 1))
+             
             file = tempfile.NamedTemporaryFile(mode='w+', suffix='.html')
 
             file.write(page)
-
+            
             imgkit.from_file(
                 file.name,
-                __OUT_FILES[index],
+                out,
                 options=__OPTIONS_JPG
             )
 
-            file.close()        
+            file.close()
 
-    return __OUT_FILES
+            alerts.append({'file' : out, 'message' : None})
+    else:
+        alerts = [{'file' : name, 'message' : None} for name in files]
+
+    return alerts

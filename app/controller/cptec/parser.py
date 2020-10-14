@@ -36,11 +36,12 @@ __TODAY = date.today()
 
 __MODEL_FILE = './app/view/model_weather.html'
 
-DATA = [
+""" DATA = [
     [{'min': '26°', 'max': '41°', 'city': 'Cuiabá', 'icon': 'https://s1.cptec.inpe.br/webcptec/common/assets/images/icones/tempo/icones-grandes/pn.png'}, {'min': '19°', 'max': '35°', 'city': 'Juína', 'icon': 'https://s1.cptec.inpe.br/webcptec/common/assets/images/icones/tempo/icones-grandes/pp.png'}, {'min': '20°', 'max': '35°', 'city': 'Alta Floresta', 'icon': 'https://s1.cptec.inpe.br/webcptec/common/assets/images/icones/tempo/icones-grandes/pp.png'}, {'min': '20°', 'max': '40°', 'city': 'Vila Rica', 'icon': 'https://s1.cptec.inpe.br/webcptec/common/assets/images/icones/tempo/icones-grandes/pn.png'}, {'min': '20°', 'max': '41°', 'city': 'Barra do Garças', 'icon': 'https://s1.cptec.inpe.br/webcptec/common/assets/images/icones/tempo/icones-grandes/ps.png'}, {'min': '22°', 'max': '41°', 'city': 'Rondonópolis', 'icon': 'https://s1.cptec.inpe.br/webcptec/common/assets/images/icones/tempo/icones-grandes/pn.png'}],
     [{'min': '24°', 'max': '40°', 'city': 'Cáceres', 'icon': 'https://s1.cptec.inpe.br/webcptec/common/assets/images/icones/tempo/icones-grandes/pn.png'}, {'min': '23°', 'max': '38°', 'city': 'Tangará da Serra', 'icon': 'https://s1.cptec.inpe.br/webcptec/common/assets/images/icones/tempo/icones-grandes/pn.png'}, {'min': '23°', 'max': '41°', 'city': 'Diamantino', 'icon': 'https://s1.cptec.inpe.br/webcptec/common/assets/images/icones/tempo/icones-grandes/pn.png'}, {'min': '18°', 'max': '39°', 'city': 'Sorriso', 'icon': 'https://s1.cptec.inpe.br/webcptec/common/assets/images/icones/tempo/icones-grandes/pn.png'}, {'min': '20°', 'max': '36°', 'city': 'Juara', 'icon': 'https://s1.cptec.inpe.br/webcptec/common/assets/images/icones/tempo/icones-grandes/pp.png'}, {'min': '18°', 'max': '38°', 'city': 'Sinop', 'icon': 'https://s1.cptec.inpe.br/webcptec/common/assets/images/icones/tempo/icones-grandes/pn.png'}]
 ]
-
+ """
+ 
 def parser(data=[]):
 
     models = []

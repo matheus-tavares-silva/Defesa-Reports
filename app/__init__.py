@@ -8,6 +8,8 @@ import threading
 
 def run(): 
     #alerts()
+    #covid()
+    #cptec()
     chat()
     #for thread in threads:
     #    thread.start() 

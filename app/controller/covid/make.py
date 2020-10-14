@@ -1,11 +1,11 @@
 from app.controller.covid.data import data
 from app.controller.covid.parser import parser
 from app.controller.folder import folder
+from glob import glob
 import os
 import tempfile
 import imgkit
 
-__OUT_FILES = [(folder() + '/' + 'covid-*.jpg').replace('*', str((index + 1))) for index in range(2)]
 __OPTIONS_JPG = [
     {
         'width': '1080',
@@ -19,26 +19,35 @@ __OPTIONS_JPG = [
     }
 ]
 
+__NAME = 'covid'
 
 def make():
+    path = '{}/{}-*.jpg'.format(folder(), __NAME)
+    files = glob(path)
 
-    files = [True if os.path.exists(path) else False for path in __OUT_FILES ]
+    alerts = []
 
-
-    if(False in files):
+    if(not files):
         html = parser(data())
 
         for index, page in enumerate(html):
+            out = path.replace('*', str(index + 1))
+            
             file = tempfile.NamedTemporaryFile(mode='w+', suffix='.html')        
 
             file.write(page)
 
             imgkit.from_file(
                 file.name,
-                __OUT_FILES[index],
+                out,
                 options=__OPTIONS_JPG[index]
             )
 
             file.close()
 
-    return __OUT_FILES
+            alerts.append({'file' : out, 'message' : None})
+
+    else:
+        alerts = [{'file' : name, 'message' : None} for name in files]
+
+    return alerts
