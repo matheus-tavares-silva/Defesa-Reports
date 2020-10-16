@@ -4,7 +4,7 @@ from telegram.ext import CommandHandler
 from telegram.ext import MessageHandler, Filters
 from ..cptec.make import make as cptec
 from ..covid.make import make as covid
-from ..alerts.make import make as alerts
+from ..alerts import alerts
 from .messages import messages
 import logging
 

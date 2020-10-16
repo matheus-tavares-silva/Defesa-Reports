@@ -1,59 +1,54 @@
-from lxml import etree, html
-from selenium import webdriver
-from selenium.webdriver.common.by import By
-from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC
 import requests
-import os
+from lxml import etree, html
+from datetime import datetime
 
-__LINK = 'http://alert-as.inmet.gov.br/cv/'
+__BASE = 'https://alerts.inmet.gov.br/cap_12/'
 
-__GECKO = 'app/controller/covid/geckodriver'
-
-__SELECTORS = {
-    'country' : 'div.cinza2:nth-child(2) > div:nth-child(3) > a',
+__XPATH = {
+    'width': '1080',
+    'height': '1920',
+    'root' : '/html/body/table/tr/td/a'
 }
 
-__SITUATION = {
-    'severity' : '#severity',
-    'event' : '#event',
-    'onset' : '#onset',
-    'expires' : '#expires',
-    'description' : '#description',
-    'map' : r'#OpenLayers\.Map_3_OpenLayers_ViewPort'
-}
+def data(country='Mato Grosso', date=None):
 
+    response = lambda link: {'url' : link, 'source' : html.fromstring(requests.get(link).content)}
 
-def data() :
-    os.environ['MOZ_HEADLESS'] = '1' #-- Uncomment to show driver
+    inmet = response((__BASE + date)) if date else __BASE + datetime.today().strftime('%Y/%m')
 
-    response = html.fromstring(requests.get(__LINK).content)
+    if(not date):
+        inmet = response('{}/{}'.format(inmet, [a.get('href') for a in response(inmet)['source'].xpath(__XPATH['root'])][-1]))
+    
+    links = [[b, response(b)['source'].xpath(__XPATH['root'])] for b in [inmet['url'] + a.get('href')[1:] for a in inmet['source'].xpath(__XPATH['root'])][1:]][0]
 
-    driver = webdriver.Firefox(executable_path=__GECKO)
-    wait = WebDriverWait(driver, 40)
+    responses = [etree.XML(requests.get(links[0] + c.get('href')[2:]).content) for c in links[1][1:]]
 
-    elements = response.cssselect(__SELECTORS['country'])
+    content = []
+    for xml in responses:
+        position = 6 if xml[4].text != 'Update' else 7
 
-    situation = []
-    for element in elements:
-        aux = {}
-        driver.get(element.get('href'))
-        for key in __SITUATION:
-            if(not key == 'map'):
-                aux[key] =  wait.until(
-                    EC.visibility_of_element_located(
-                        (By.CSS_SELECTOR, __SITUATION[key])
-                    )
-                ).text
-            else:
-                aux['map'] = wait.until(
-                    EC.visibility_of_element_located(
-                        (By.CSS_SELECTOR, __SITUATION[key])
-                    )
-                ).get_attribute('innerHTML').replace('visibility: hidden;', 'visibility: inherit;').replace('opacity: 0;', 'opacity: 1;')
-                
-        situation.append(aux)
+        if(country in xml[position][19][1].text):
+            content.append(
+                {
+                    'event' : xml[position][2].text,
+                    'onset' : xml[position][7].text,
+                    'expires' : xml[position][8].text,
+                    'headline' : xml[position][10].text,
+                    'description' : xml[position][11].text,
+                    'web' : xml[position][13].text,
+                    'color' : xml[position][15][1].text,
+                    'polygon' : polygon(xml[position][20][1].text)
+                }
+            )
 
-    driver.close()
+    return content
 
-    return situation
+def polygon(coordinates=[]):
+
+    lines = [[round(float(b), 2) for b in a.split(' ')][::-1] for a in coordinates.split(',')]
+
+    lines[0].append(lines[-1][0])
+    del lines[-1]
+    lines.append(lines[0])
+
+    return lines
