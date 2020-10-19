@@ -7,7 +7,8 @@ from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.common.keys import Keys
 
 __LINK = 'http://www.saude.mt.gov.br/painelcovidmt2/'
-__GECKO = 'app/controller/covid/geckodriver'
+__GECKO = './geckodriver'
+
 
 __XPATH_PANEL = {
     'panel': '/html/body/section/div/div/div/iframe',

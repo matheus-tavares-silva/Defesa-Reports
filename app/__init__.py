@@ -7,10 +7,10 @@ import threading
 #threads = [threading.Thread(target=cptec), threading.Thread(target=covid)]
 
 def run(): 
-    alerts()
+    #alerts()
     #covid()
     #cptec()
-    #chat()
+    chat()
     #for thread in threads:
     #    thread.start() 
     

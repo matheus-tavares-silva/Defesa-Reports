@@ -12,7 +12,7 @@ Escolha uma opção:
     'generate' : {
         'cptec' : 'Gerando arquivo de previsão do tempo, aguarde um momento...',
         'covid' : 'Gerando arquivos do painel covid, aguarde um momento...',
-        'alerts' : 'Buscando informações...'
+        'alerts' : 'Sistema de notificações de alerta: '
     },
     'unknown' : \
 '''

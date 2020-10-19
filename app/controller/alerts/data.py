@@ -5,8 +5,6 @@ from datetime import datetime
 __BASE = 'https://alerts.inmet.gov.br/cap_12/'
 
 __XPATH = {
-    'width': '1080',
-    'height': '1920',
     'root' : '/html/body/table/tr/td/a'
 }
 
@@ -27,7 +25,7 @@ def data(country='Mato Grosso', date=None):
     for xml in responses:
         position = 6 if xml[4].text != 'Update' else 7
 
-        if(country in xml[position][19][1].text):
+        if(search_for(country, xml[position][19][1].text)):
             content.append(
                 {
                     'event' : xml[position][2].text,
@@ -35,7 +33,7 @@ def data(country='Mato Grosso', date=None):
                     'expires' : xml[position][8].text,
                     'headline' : xml[position][10].text,
                     'description' : xml[position][11].text,
-                    'web' : xml[position][13].text,
+                    'web' : xml[position][13].text.split('/')[-1],
                     'color' : xml[position][15][1].text,
                     'polygon' : polygon(xml[position][20][1].text)
                 }
@@ -52,3 +50,7 @@ def polygon(coordinates=[]):
     lines.append(lines[0])
 
     return lines
+
+def search_for(country, xml):
+
+    return country in [ b.replace(' ', '', 1) if b[0] == ' ' else b for b in [a for a in xml.split(',')]]
