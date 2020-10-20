@@ -31,7 +31,6 @@ def alerts():
     
     results = [result.result() for result in alerts]
 
-    print(results)
     return results
 
 if __name__ == "__main__":
