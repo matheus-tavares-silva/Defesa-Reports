@@ -1,5 +1,6 @@
 import requests
 from telegram.ext import Updater, CommandHandler, MessageHandler, Filters, CallbackContext
+from telegram import ParseMode
 from ..cptec.make import make as cptec
 from ..covid.make import make as covid
 from ..alerts import alerts
@@ -9,7 +10,7 @@ import datetime
 
 __TOKEN = '1365811077:AAFXUgzOk9N9lissQ0-ikTlODc9Hc43qX2A'
 __OPTIONS = {'cptec' : cptec, 'covid' : covid, 'alerts' : alerts}
-__MINUTES = 150
+__MINUTES = 30
 
 def chat():
     logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
@@ -21,9 +22,9 @@ def chat():
     def notify(context):
         responses = __OPTIONS['alerts']()
 
-        if(len(responses) > 0):
+        if(responses != []):
             for reponse in responses:
-                context.bot.send_photo(chat_id=context.job.context, photo=open(reponse['file'], 'rb'), caption=reponse['message'])
+                context.bot.send_photo(chat_id=context.job.context, photo=open(reponse['file'], 'rb'), caption=reponse['message'], parse_mode=ParseMode.HTML)
 
 
     def report_weather(update, context):
@@ -32,8 +33,6 @@ def chat():
         if(index >= 1 and index <= len(__OPTIONS)):
             key = list(__OPTIONS.keys())[index - 1]
             text = messages['generate'][key]
-
-            content = __OPTIONS[key]()
             
             if(key == 'alerts'):
                 status = {'status' : 'Habilitado', 'bool' : True} if not context.job_queue.jobs() else {'status' : 'Desabilitado', 'bool' : False}
@@ -46,6 +45,8 @@ def chat():
                     context.job_queue.stop()
                 
             else:
+                content = __OPTIONS[key]()
+
                 context.bot.send_message(chat_id=update.effective_chat.id, text=text)
 
                 for data in content:

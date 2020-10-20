@@ -2,7 +2,7 @@ import requests
 from lxml import etree, html
 from datetime import datetime
 
-__BASE = 'https://alerts.inmet.gov.br/cap_12/'
+__URL = 'https://alerts.inmet.gov.br/cap_12/'
 
 __XPATH = {
     'root' : '/html/body/table/tr/td/a'
@@ -12,7 +12,7 @@ def data(country='Mato Grosso', date=None):
 
     response = lambda link: {'url' : link, 'source' : html.fromstring(requests.get(link).content)}
 
-    inmet = response((__BASE + date)) if date else __BASE + datetime.today().strftime('%Y/%m')
+    inmet = response((__URL + date)) if date else __URL + datetime.today().strftime('%Y/%m')
 
     if(not date):
         inmet = response('{}/{}'.format(inmet, [a.get('href') for a in response(inmet)['source'].xpath(__XPATH['root'])][-1]))
@@ -21,13 +21,15 @@ def data(country='Mato Grosso', date=None):
 
     responses = [etree.XML(requests.get(links[0] + c.get('href')[2:]).content) for c in links[1][1:]]
 
+
     content = []
     for xml in responses:
-        position = 6 if xml[4].text != 'Update' else 7
+        position = 7 if xml[4].text in ['Update', 'Cancel'] else 6
 
         if(search_for(country, xml[position][19][1].text)):
             content.append(
                 {
+                    'type' : xml[4].text,
                     'event' : xml[position][2].text,
                     'onset' : xml[position][7].text,
                     'expires' : xml[position][8].text,
@@ -38,7 +40,7 @@ def data(country='Mato Grosso', date=None):
                     'polygon' : polygon(xml[position][20][1].text)
                 }
             )
-
+    
     return content
 
 def polygon(coordinates=[]):
