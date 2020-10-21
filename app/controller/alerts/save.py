@@ -1,7 +1,8 @@
 from .message import message
 from selenium import webdriver
+from selenium.common.exceptions import InvalidSessionIdException
 from concurrent.futures import ThreadPoolExecutor as executor
-from time import sleep 
+from time import sleep
 
 import tempfile
 import os
@@ -12,45 +13,43 @@ __CENTER = [-12.38, -54.92]
 __GECKO = './geckodriver'
 
 
-def __map(out, content):
-    
-    file = tempfile.NamedTemporaryFile(mode='w+', suffix='.html')
-
+def __map(out, content, retry=3):
     os.environ['MOZ_HEADLESS'] = '1'  # -- Uncomment to show driver
 
-    if(__build(file.name, content)):
+    if(retry >= 0):
+        file = tempfile.NamedTemporaryFile(mode='w+', suffix='.html')
 
-        driver = webdriver.Firefox(executable_path=__GECKO)
+        if(__build(file.name, content)):
 
-        # print(file.name)
-        driver.set_window_size(1920, 1080)
+            try:
+                driver = webdriver.Firefox(executable_path=__GECKO)
 
-        driver.get('file:///' + file.name)
+                driver.set_window_size(1920, 1080)
 
-        sleep(10)
+                driver.get('file:///' + file.name)
 
-        driver.save_screenshot(out)
+                sleep(10)
 
-        driver.close()
+                driver.save_screenshot(out)
+            except:
+                return __map(out, content, retry - 1)    
 
-    file.close()
+        file.close()
 
-    return {'file': out, 'message': message(content)}
+        return {'file': out, 'message': message(content)}
 
+    return {}
 
 def __build(file, data=[]):
 
-    try:
-        city = folium.Map(location=__CENTER, zoom_start=6)
+    city = folium.Map(location=__CENTER, zoom_start=6)
 
-        polygon = data['polygon']
+    polygon = data['polygon']
 
-        folium.Polygon(polygon,  color=data['color'], fill=True,
-                       fillColor=data['color'], fillOpacity=1).add_to(city)
+    folium.Polygon(polygon,  color=data['color'], fill=True,
+                   fillColor=data['color'], fillOpacity=1).add_to(city)
 
-        city.save(file)
-    except:
-        return False
+    city.save(file)
 
     return True
 

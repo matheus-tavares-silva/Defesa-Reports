@@ -22,7 +22,7 @@ def chat():
     def notify(context):
         responses = __OPTIONS['alerts']()
 
-        if(responses != []):
+        if(responses):
             for reponse in responses:
                 context.bot.send_photo(chat_id=context.job.context, photo=open(reponse['file'], 'rb'), caption=reponse['message'], parse_mode=ParseMode.HTML)
 

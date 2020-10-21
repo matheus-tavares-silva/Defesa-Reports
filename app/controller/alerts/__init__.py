@@ -17,9 +17,9 @@ __NAME = 'alert'
 
 def alerts():
 
-    path = '{}/{}-*.png'.format(folder('Alerts'), __NAME)
+    path = '{}/{}-*.png'.format(folder('Alerts', False), __NAME)
 
-    alerts = []
+    reponse = []
 
     contents = data()
 
@@ -27,9 +27,9 @@ def alerts():
         out = path.replace('*', content['web'])
 
         if(not os.path.isfile(out)):
-            alerts.append(save(out, content))
+            reponse.append(save(out, content))
     
-    results = [result.result() for result in alerts]
+    results = [alert.result() for alert in reponse]
 
     return results
 

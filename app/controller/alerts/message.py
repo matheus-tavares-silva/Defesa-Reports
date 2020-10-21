@@ -11,7 +11,6 @@ __MAIN_TEXT = \
 Situação: <b>{}</b>
 Aviso: <b>{}</b>
 {}
-
 {}
 
 http://alert-as.inmet.gov.br/cv/emergencia/cap/{}
@@ -21,6 +20,7 @@ __TIME_TEXT = \
 """
 Início: {}
 Término: {}
+
 """
 
 
