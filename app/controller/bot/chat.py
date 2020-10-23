@@ -51,7 +51,7 @@ def chat():
                 content = parallel(generate['function'])
 
                 for data in content:
-                    context.bot.send_photo(chat_id=update.effective_chat.id, photo=open(data, 'rb'))
+                    context.bot.send_photo(chat_id=update.effective_chat.id, photo=open(data, 'rb'), timeout=60)
         else: 
             context.bot.send_message(chat_id=update.effective_chat.id, text=messages['unknown'])
             
