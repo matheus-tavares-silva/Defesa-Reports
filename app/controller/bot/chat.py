@@ -7,7 +7,8 @@ import logging
 import datetime
 
 __TOKEN = '1365811077:AAFXUgzOk9N9lissQ0-ikTlODc9Hc43qX2A'
-__MINUTES = 60
+__MINUTES = 120
+__TIMEOUT = 300
 
 
 def chat():
@@ -24,7 +25,7 @@ def chat():
         if(responses):
             for reponse in responses:
                 context.bot.send_photo(chat_id=context.job.context, photo=open(
-                    reponse['file'], 'rb'), caption=reponse['message'], parse_mode=ParseMode.HTML, timeout=60)
+                    reponse['file'], 'rb'), caption=reponse['message'], parse_mode=ParseMode.HTML, timeout=__TIMEOUT)
 
     def report_weather(update, context):
         key = update.message.text
@@ -51,7 +52,7 @@ def chat():
                 content = parallel(generate['function'])
 
                 for data in content:
-                    context.bot.send_photo(chat_id=update.effective_chat.id, photo=open(data, 'rb'), timeout=60)
+                    context.bot.send_photo(chat_id=update.effective_chat.id, photo=open(data, 'rb'), timeout=__TIMEOUT)
         else: 
             context.bot.send_message(chat_id=update.effective_chat.id, text=messages['unknown'])
             
