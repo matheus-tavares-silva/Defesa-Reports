@@ -1,15 +1,12 @@
-import requests
 from telegram.ext import Updater, CommandHandler, MessageHandler, Filters, CallbackContext
 from telegram import ParseMode
-from ..cptec.make import make as cptec
-from ..covid.make import make as covid
+from ..proxy import parallel
 from ..alerts import alerts
 from .messages import messages
 import logging
 import datetime
 
 __TOKEN = '1365811077:AAFXUgzOk9N9lissQ0-ikTlODc9Hc43qX2A'
-__OPTIONS = {'cptec': cptec, 'covid': covid, 'alerts': alerts}
 __MINUTES = 60
 
 
@@ -22,7 +19,7 @@ def chat():
             chat_id=update.effective_chat.id, text=messages['welcome'])
 
     def notify(context):
-        responses = __OPTIONS['alerts']()
+        responses = alerts()
 
         if(responses):
             for reponse in responses:
@@ -30,19 +27,17 @@ def chat():
                     reponse['file'], 'rb'), caption=reponse['message'], parse_mode=ParseMode.HTML, timeout=60)
 
     def report_weather(update, context):
-        index = int(update.message.text) if update.message.text in [
-            str(i) for i in range(1, 10)] else 0
+        key = update.message.text
+        
+        generate = messages['generate'][key] if key in messages['generate'] else None
 
-        if(index >= 1 and index <= len(__OPTIONS)):
-            key = list(__OPTIONS.keys())[index - 1]
-            text = messages['generate'][key]
-
-            if(key == 'alerts'):
+        if(generate):
+            if(key == '3'):
                 status = {'status': 'Habilitado', 'bool': True} if not context.job_queue.jobs(
                 ) else {'status': 'Desabilitado', 'bool': False}
 
                 context.bot.send_message(
-                    chat_id=update.effective_chat.id, text=(text + status['status']))
+                    chat_id=update.effective_chat.id, text=(generate['message'] + status['status']))
 
                 if(status['bool']):
                     context.job_queue.run_repeating(
@@ -51,18 +46,15 @@ def chat():
                     context.job_queue.stop()
 
             else:
-                content = __OPTIONS[key]()
+                context.bot.send_message(chat_id=update.effective_chat.id, text=generate['message'])
 
-                context.bot.send_message(
-                    chat_id=update.effective_chat.id, text=text)
+                content = parallel(generate['function'])
 
                 for data in content:
-                    context.bot.send_photo(chat_id=update.effective_chat.id, photo=open(
-                        data['file'], 'rb'), caption=data['message'])
-        else:
-            context.bot.send_message(
-                chat_id=update.effective_chat.id, text=messages['unknown'])
-
+                    context.bot.send_photo(chat_id=update.effective_chat.id, photo=open(data, 'rb'))
+        else: 
+            context.bot.send_message(chat_id=update.effective_chat.id, text=messages['unknown'])
+            
     updater = Updater(token=__TOKEN, use_context=True)
     dispatcher = updater.dispatcher
 

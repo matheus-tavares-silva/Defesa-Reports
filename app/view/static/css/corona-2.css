@@ -1,0 +1,68 @@
+html,
+body {
+  position: fixed;
+  margin: 0 auto;
+  text-align: center;
+  font-family: "Montserrat", sans-serif;
+}
+
+.background {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: auto;
+}
+
+.title {
+  position: absolute;
+  bottom: 61%;
+  left: 40%;
+  color: #132d56;
+  font-weight: 600;
+}
+
+.info {
+  font-size: 4.7rem;
+  color: #132d56;
+  font-weight: 800;
+}
+
+.left-top {
+  position: absolute;
+  bottom: 51%;
+  left: 21%;
+  width: 27.5%;
+}
+
+.left-bottom {
+  position: absolute;
+  bottom: 38.5%;
+  left: 21%;
+  width: 27.5%;
+}
+
+.right-top {
+  position: absolute;
+  bottom: 51%;
+  left: 53.5%;
+  width: 27.5%;
+}
+
+.right-bottom {
+  position: absolute;
+  bottom: 38.5%;
+  left: 53.5%;
+  width: 27.5%;
+}
+
+.list {
+  position: absolute;
+  bottom: 25.6%;
+  left: 40.5%;
+  width: 49.5%;
+  height: 7.5%;
+  text-align: left;
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #132d56;
+}

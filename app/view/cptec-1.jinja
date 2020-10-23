@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="pt-Br">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      href="https://fonts.googleapis.com/css?family=Open+Sans:400,600,300"
+      rel="stylesheet"
+      type="text/css"
+    />
+  </head>
+  <body>
+    <img src="file://{{ image }}" />
+    <div class="content">
+      <div class="title">
+        <h4 class="day">{{ day }}</h4>
+        <h4 class="date">{{ month }}</h4>
+      </div>
+      <div class="display">
+        {% for value in values %} 
+        <div class="climate">
+          <div class="local">
+            <h1 style="color: white">{{ value['city'] }}</h1>
+            <img src="{{ value['icon'] }}" />
+          </div>
+          <div class="temperature">
+            <h1 class="min">{{ value['min'] }}</h1>
+            <h1 class="max">{{ value['max'] }}</h1>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+  </body>
+</html>

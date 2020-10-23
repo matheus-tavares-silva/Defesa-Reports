@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="pt-Br">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      href="https://fonts.googleapis.com/css?family=Montserrat:200,300,400,500,600,700,800,900"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <img src="file://{{ image }}" />
+    <h4 class="title">ATUALIZADO ATÉ {{ date }}</h4>
+    <h1 class="left-top info">{{ confirmed }}</h1>
+    <h1 class="left-bottom info">{{ recovered }}</h1>
+    <h1 class="right-top info">{{ monitored }}</h1>
+    <h1 class="right-bottom info">{{ dead }}</h1>
+    <div class="list">
+      <span class="text">
+        Dentre os municípios com maior número de casos de Covid-19, estão: 
+        {%- for i in range(cases|count) -%} 
+            {{' '}}{%- if i <= 7 -%} 
+            {{ cities[i] }} ({{ cases[i] }}), 
+          {%- elif i == 8 -%} 
+            {{' '}}{{ cities[i] }} ({{ cases[i] }}) e 
+          {%- elif i == 9 -%}
+            {{' '}}{{ cities[i] }} ({{ cases[i] }}).
+          {%- endif -%}
+        {%- endfor %}
+      </span>
+    </div>
+  </body>
+</html>

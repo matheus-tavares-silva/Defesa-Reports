@@ -1,4 +1,4 @@
-from app.controller.alerts.data import data
+from ..proxy import proxy
 from app.controller.alerts.save import save
 from ..folder import folder
 
@@ -21,7 +21,7 @@ def alerts():
 
     reponse = []
 
-    contents = data()
+    contents = proxy.alerts()
 
     for content in contents:
         out = path.replace('*', content['web'])
