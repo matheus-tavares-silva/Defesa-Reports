@@ -20,12 +20,12 @@
         {% for value in values %} 
         <div class="climate">
           <div class="local">
-            <h1 style="color: white">{{ value['city'] }}</h1>
-            <img src="{{ value['icon'] }}" />
+            <h1 style="color: white">{{ value['entidade'] }}</h1>
+            <img src="{{ value['icone'] }}" />
           </div>
           <div class="temperature">
-            <h1 class="min">{{ value['min'] }}</h1>
-            <h1 class="max">{{ value['max'] }}</h1>
+            <h1 class="min">{{ value['temp_min'] }}</h1>
+            <h1 class="max">{{ value['temp_max'] }}</h1>
           </div>
         </div>
         {% endfor %}
@@ -33,3 +33,5 @@
     </div>
   </body>
 </html>
+
+<!-- {'manha': {'cod_icone': '88', 'cod_temp_max_tende_icone': '86', 'cod_temp_min_tende_icone': '74', 'dia_semana': 'Terça-Feira', 'dir_vento': 'SW-W', 'entidade': 'Rondonópolis', 'estacao': 'Primavera', 'fonte': 'prevmet', 'hora': '17', ...}, 'noite': {'cod_icone': '58', 'cod_temp_max_tende_icone': '86', 'cod_temp_min_tende_icone': '74', 'dia_semana': 'Terça-Feira', 'dir_vento': 'NE-N', 'entidade': 'Rondonópolis', 'estacao': 'Primavera', 'fonte': 'prevmet', 'hora': '17', ...}, 'tarde': {'cod_icone': '87', 'cod_temp_max_tende_icone': '86', 'cod_temp_min_tende_icone': '74', 'dia_semana': 'Terça-Feira', 'dir_vento': 'W-SW', 'entidade': 'Rondonópolis', 'estacao': 'Primavera', 'fonte': 'prevmet', 'hora': '17', ...}} -->

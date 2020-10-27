@@ -82,41 +82,40 @@ def covid():
 def cptec(**kwargs):
     kwargs.update(kwargs if kwargs else env.cptec['default'])
 
-    if(type(kwargs['cities']) is list):
-        contents = []
+    today = date.today()
+    day = env.week_days[today.weekday()]
+    month = today.strftime('%d/%m/%Y')
 
-        today = date.today()
-        day = env.week_days[today.weekday()]
-        month = today.strftime('%d/%m/%Y')
+    geocodelist = [
+        [
+            str(
+                requests.get(
+                    env.cptec['api'] + 
+                    env.cptec['route']['geocode'] + 
+                    city, timeout=100
+                ).json()[0]['geocode']
+            ) for city in cities
+        ] for cities in kwargs['cities']
+    ]
 
-        for group in kwargs['cities']:
-            values = []
-            for city in group:
-                model = {'min': '', 'max': '', 'city': '', 'icon': ''}
+    reponses = [
+        {
+            'day': day, 
+            'month': month,
+            'values' : 
+            [   
+                [ 
+                    requests.get(
+                        env.cptec['api'] + 
+                        env.cptec['route']['prevision'] + 
+                        code
+                    ).json()[code][month]['tarde']
+                ][0] for code in geocodes
+            ] 
+        } for geocodes in geocodelist
+    ]
 
-                try:
-                    response = html.fromstring(
-                        requests.get(env.cptec['link'] + city).content)
-                except:
-                    pass
-                else:
-                    for key in env.cptec['path']:
-
-                        if(key == 'icon'):
-                            model[key] = response.cssselect(
-                                env.cptec['path'][key])[0].get('src')
-                        else:
-                            model[key] = response.cssselect(env.cptec['path'][key])[0].text_content().replace(
-                                u'\xa0', u'').replace('/MT', '')
-
-                values.append(model)
-
-            contents.append({'day': day, 'month': month, 'values': values})
-
-        return contents
-
-    return None
-
+    return reponses
 
 def alerts(**kwargs):
     kwargs.update(kwargs if kwargs else env.alerts['default'])

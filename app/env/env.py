@@ -19,12 +19,18 @@ env = \
         }
     },
     'cptec': {
+        'api' : 'https://apiprevmet3.inmet.gov.br/',
         'link': 'https://www.cptec.inpe.br/previsao-tempo/mt/',
         'path': {
             'min': 'div.justify-content-md-center:nth-child(1) > span:nth-child(1)',
             'max': 'div.justify-content-md-center:nth-child(2) > span:nth-child(1)',
             'city': 'h2.text-center',
             'icon': 'div.col-md-auto:nth-child(3) > a:nth-child(1) > img:nth-child(1)'
+        },
+        'route' : {
+            'geocode' : 'autocomplete/',
+            'prevision' : 'previsao/'
+
         },
         'default': {'cities' : [['cuiaba', 'juina', 'alta_floresta', 'vila_rica', 'barra_do_garcas', 'rondonopolis'], ['caceres', 'tangara_da_serra', 'diamantino', 'sorriso', 'juara', 'sinop']]},
         'render' : {

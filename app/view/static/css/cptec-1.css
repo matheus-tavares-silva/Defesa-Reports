@@ -67,9 +67,7 @@ body {
 
 .display > .climate > .local > img {
   float: right;
-  width: 20%;
-  margin-top: 2.5%;
-  margin-bottom: 2.5%;
+  width: 19%;
 }
 
 .display > .climate > .temperature {
