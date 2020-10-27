@@ -4,5 +4,7 @@ from app.controller.bot.chat import chat
 def run(): 
     chat()
     
+    #print(parallel('alerts'))
+
     return None
     

@@ -20,7 +20,7 @@ def chat():
             chat_id=update.effective_chat.id, text=messages['welcome'])
 
     def notify(context):
-        responses = alerts()
+        responses = parallel('alerts')
 
         if(responses):
             for reponse in responses:

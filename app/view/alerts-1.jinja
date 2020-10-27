@@ -1,0 +1,16 @@
+{%- if type == 'Cancel' -%} 
+Situação: <b>Cancelado</b> ❌
+{% elif type == 'Update' -%} 
+Situação: <b>Atualizado</b>  ❗
+{% else -%}
+Situação: <b>Ativo</b> ✔
+{% endif %}
+Aviso: <b>{{ event }}</b> 
+Severidade Grau:<b>{{ headline }}</b>
+{% if type != 'Cancel' %} 
+Início: {{ onset }}
+Término: {{ expires }}
+{% endif %}
+{{ description }}
+
+http://alert-as.inmet.gov.br/cv/emergencia/cap/{{ web }}

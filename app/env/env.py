@@ -1,13 +1,21 @@
 env = \
 {
-    'alert': {
+    'alerts': {
         'link': 'https://alerts.inmet.gov.br/cap_12/',
         'path': {
             'root': '/html/body/table/tr/td/a'
         },
         'default' : {
             'country' : 'Mato Grosso',
-            'date' : None
+            'date' : None,
+            'location' : [-12.38, -54.92]
+        },
+        'render' : {
+            'models' : ['alerts-1.jinja'],
+            'styles' : [],
+            'images' : [],
+            'out'    : [],
+            'options' : []
         }
     },
     'cptec': {

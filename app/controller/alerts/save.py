@@ -1,4 +1,3 @@
-from .message import message
 from selenium import webdriver
 from selenium.common.exceptions import InvalidSessionIdException
 from concurrent.futures import ThreadPoolExecutor as executor
@@ -12,50 +11,55 @@ __CENTER = [-12.38, -54.92]
 
 __GECKO = './geckodriver'
 
+def save(**kwargs):
 
-def __map(out, content, retry=3):
-    os.environ['MOZ_HEADLESS'] = '1'  # -- Uncomment to show driver
+    def image(out, content, template, retry=3):
 
-    if(retry >= 0):
-        file = tempfile.NamedTemporaryFile(mode='w+', suffix='.html')
+        os.environ['MOZ_HEADLESS'] = '1'  # -- Uncomment to show driver
 
-        if(__build(file.name, content)):
+        def build(file, data=[]):
 
-            try:
-                driver = webdriver.Firefox(executable_path=__GECKO)
+            city = folium.Map(location=__CENTER, zoom_start=6)
 
-                driver.set_window_size(1920, 1080)
+            polygon = data['polygon']
 
-                driver.get('file:///' + file.name)
+            folium.Polygon(polygon,  color=data['color'], fill=True,
+                        fillColor=data['color'], fillOpacity=1).add_to(city)
 
-                sleep(10)
+            city.save(file)
 
-                driver.save_screenshot(out)
-            except:
-                return __map(out, content, retry - 1)    
-
-        file.close()
-
-        return {'file': out, 'message': message(content)}
-
-    return {}
-
-def __build(file, data=[]):
-
-    city = folium.Map(location=__CENTER, zoom_start=6)
-
-    polygon = data['polygon']
-
-    folium.Polygon(polygon,  color=data['color'], fill=True,
-                   fillColor=data['color'], fillOpacity=1).add_to(city)
-
-    city.save(file)
-
-    return True
+            return True
 
 
-def save(out, content):
+        if(retry >= 0):
+            file = tempfile.NamedTemporaryFile(mode='w+', suffix='.html')
 
-    future = executor().submit(__map, out, content)
+            if(build(file.name, content)):
+
+                try:
+                    driver = webdriver.Firefox(executable_path=__GECKO)
+
+                    driver.set_window_size(1920, 1080)
+
+                    driver.get('file:///' + file.name)
+
+                    sleep(10)
+
+                    driver.save_screenshot(out)
+                except:
+                    return image(out, content, retry - 1)    
+
+            file.close()
+
+            return {'file': out, 'message': template}
+
+        return {}
+
+    future = executor().submit(
+        image, 
+        kwargs['out'], 
+        kwargs['content'],
+        kwargs['template']
+    )
 
     return future
