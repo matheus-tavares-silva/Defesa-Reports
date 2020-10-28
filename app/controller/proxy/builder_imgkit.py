@@ -3,11 +3,6 @@ import imgkit
 import tempfile
 import os
 
-PATH_MODEL = './app/view/'
-PATH_CSS = PATH_MODEL + 'static/css/'
-PATH_IMAGE = PATH_MODEL + 'static/image/'
-PATH_OUT = './out/'
-
 def builder(**kwargs):
     
     def build(content='', fileout='', options={}, filecss=''):

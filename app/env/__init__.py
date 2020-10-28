@@ -1,8 +1,8 @@
 from .env import env
 
-telegram, cptec, covid, alerts, env \
+paths, telegram, cptec, covid, alerts, env \
 = \
-env['telegram'], env['cptec'], env['covid'], env['alerts'], env
+env['paths'], env['telegram'], env['cptec'], env['covid'], env['alerts'], env
 
 gecko = './geckodriver'
 

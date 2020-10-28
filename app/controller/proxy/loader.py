@@ -1,16 +1,13 @@
 from jinja2 import Template
 from itertools import chain
-from glob import glob
-from ...env import env
+from .builder_imgkit import builder as imgbuild
+from .builder_selenium import builder as selbuild
+from ...env import env, paths
 from ..folder import folder
-from ..alerts import save
+
 import os
 
-PATH_MODEL = './app/view/'
-PATH_CSS = PATH_MODEL + 'static/css/'
-PATH_IMAGE = PATH_MODEL + 'static/image/'
-
-def loader(proxy, builder):
+def loader(proxy):
     contents = proxy()
 
     contents = contents if type(contents) == list else [contents]
@@ -22,9 +19,9 @@ def loader(proxy, builder):
     templates = []
     for content in contents:
         templates.append([
-            template.render(content, image=os.path.abspath(PATH_IMAGE + image)) for template, image in zip([
+            template.render(content, image=os.path.abspath(paths['loader']['image'] + image)) for template, image in zip([
                         Template(open(file).read()) for file in [
-                            (PATH_MODEL + model) for model in render['models'] if os.path.exists(PATH_MODEL + model)
+                            (paths['loader']['model'] + model) for model in render['models'] if os.path.exists(paths['loader']['model'] + model)
                         ]
                     ], render['images'] if render['images'] != [] else ['' for empty in range(len(contents))]
                 )
@@ -41,7 +38,7 @@ def loader(proxy, builder):
             
             if(not os.path.isfile(out)):
                 fileout.append(
-                    save(
+                    selbuild(
                         template=template,
                         out=out,
                         content=content
@@ -54,10 +51,10 @@ def loader(proxy, builder):
 
             out = folder() + render['out'].replace('.', '-{}.'.format(index), -1)
             options = render['options'][0] if len(render['options']) == 1 else render['options'][index]
-            css = PATH_CSS + render['styles'][0] if len(render['styles']) == 1 else PATH_CSS + render['styles'][index]
+            css = paths['loader']['css'] + render['styles'][0] if len(render['styles']) == 1 else paths['loader']['css'] + render['styles'][index]
 
             fileout.append(
-                builder(
+                imgbuild(
                     mode=proxy.__name__,
                     content=template,
                     fileout=out,

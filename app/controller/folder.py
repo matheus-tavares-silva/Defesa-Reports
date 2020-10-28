@@ -1,19 +1,18 @@
 import os
 from datetime import date, datetime
+from ..env import paths
 
-__DEFAULT_FOLDER = './out'
 
 
 def folder(folder=None, sigle=True):
-    today = '/' + datetime.today().strftime('%d-%m-%Y')
-    dayfolder = __DEFAULT_FOLDER + today
+    dayfolder = paths['out'] + datetime.today().strftime('%d-%m-%Y')
 
-    if(not os.path.exists(__DEFAULT_FOLDER)):
-        os.mkdir(__DEFAULT_FOLDER, 0o777)
+    if(not os.path.exists(paths['out'])):
+        os.mkdir(paths['out'], 0o777)
     if(not os.path.exists(dayfolder)):
         os.mkdir(dayfolder, 0o777)
     if(folder):
-        custom = dayfolder + '/' + folder if sigle else __DEFAULT_FOLDER + '/' + folder
+        custom = dayfolder + '/' + folder if sigle else paths['out'] + folder
 
         if(not os.path.exists(custom)):
             os.mkdir(custom, 0o777)

@@ -11,13 +11,13 @@ __CENTER = [-12.38, -54.92]
 
 __GECKO = './geckodriver'
 
-def save(**kwargs):
+def builder(**kwargs):
 
     def image(out, content, template, retry=3):
 
         os.environ['MOZ_HEADLESS'] = '1'  # -- Uncomment to show driver
 
-        def build(file, data=[]):
+        def make(file, data=[]):
 
             city = folium.Map(location=__CENTER, zoom_start=6)
 
@@ -34,7 +34,7 @@ def save(**kwargs):
         if(retry >= 0):
             file = tempfile.NamedTemporaryFile(mode='w+', suffix='.html')
 
-            if(build(file.name, content)):
+            if(make(file.name, content)):
 
                 try:
                     driver = webdriver.Firefox(executable_path=__GECKO)

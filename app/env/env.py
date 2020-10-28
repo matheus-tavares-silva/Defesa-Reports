@@ -1,5 +1,13 @@
 env = \
 {
+    'paths' : {
+        'out' : './out/',
+        'loader' : {
+            'model' : './app/view/',
+            'css' : './app/view/static/css/',
+            'image' : './app/view/static/image/',
+        }
+    },
     'alerts': {
         'link': 'https://alerts.inmet.gov.br/cap_12/',
         'path': {

@@ -1,7 +1,6 @@
 from telegram.ext import Updater, CommandHandler, MessageHandler, Filters, CallbackContext
 from telegram import ParseMode
 from ..proxy import parallel
-from ..alerts import alerts
 from ...env import telegram
 from .jobs import jobs
 import logging
