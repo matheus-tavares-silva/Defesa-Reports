@@ -14,10 +14,9 @@ def jobs(update, context, env, timeout=120, interval=120):
 
         responses = parallel('alerts')
 
-        if(responses):
-            for reponse in responses:
-                context.bot.send_photo(chat_id=context.job.context, photo=open(
-                    reponse['file'], 'rb'), caption=reponse['warning'], parse_mode=ParseMode.HTML, timeout=timeout)
+        for reponse in responses:
+            context.bot.send_photo(chat_id=context.job.context, photo=open(
+                reponse['file'], 'rb'), caption=reponse['message'], parse_mode=ParseMode.HTML, timeout=timeout)
 
     def once(context):
         message(chat_id=chat_id, text=env['warning'])
