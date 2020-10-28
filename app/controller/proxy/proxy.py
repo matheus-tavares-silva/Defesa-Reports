@@ -17,7 +17,7 @@ os.environ['MOZ_HEADLESS'] = '1'  # -- Uncomment to show driver
 def covid():
     driver = webdriver.Firefox(executable_path=env.gecko)
 
-    wait = WebDriverWait(driver, 60)
+    wait = WebDriverWait(driver, 120)
 
     size = 10
 
@@ -26,9 +26,6 @@ def covid():
 
     try:
         driver.get(env.covid['link'])
-
-        driver.switch_to.frame(wait.until(
-            EC.presence_of_element_located((By.XPATH, env.covid['path']['panel']))))
 
         for key in env.covid['path']:
             if(key in content.keys()):
@@ -44,8 +41,7 @@ def covid():
             )
         )
 
-        ActionChains(driver).send_keys(
-            Keys.PAGE_DOWN).click(button).pause(5).perform()
+        button.click()
 
         for key in env.covid['path']['table']:
             buffer = []
@@ -61,14 +57,19 @@ def covid():
 
             content[key] = buffer
 
-        monitored = str(int(content['interned'].replace(
-            '.', '')) + int(content['isolated'].replace('.', '')))
-        monitored = monitored[:2] + '.' + monitored[2:]
+        monitored = str(
+            int(content['interned'].replace('.', '').replace(',', '')) + 
+            int(content['isolated'].replace('.', ',').replace(',', ''))
+        )
+
+        if(len(monitored) > 3):
+            dot = len(monitored) - 3
+            monitored = monitored[:dot] + '.' + monitored[dot:]
+
         del content['interned'], content['isolated']
 
         content.update({'monitored': monitored})
-        content.update(
-            {'date': (datetime.now() - timedelta(1)).strftime(u'%d/%m')})
+        content.update({'date': (datetime.now() - timedelta(1)).strftime(u'%d/%m')})
 
     finally:
         try:
@@ -77,7 +78,6 @@ def covid():
             pass
 
     return content        
-
 
 def cptec(**kwargs):
     kwargs.update(kwargs if kwargs else env.cptec['default'])

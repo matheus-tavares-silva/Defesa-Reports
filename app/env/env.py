@@ -48,19 +48,18 @@ env = \
         }
     },
     'covid': {
-        'link': 'http://www.saude.mt.gov.br/painelcovidmt2/',
+        'link': 'https://app.powerbi.com/view?r=eyJrIjoiYjJhNjdhMGQtNWRmNy00ZTM4LWE3YmUtMjFmMTg3YzE5ZjAzIiwidCI6ImNkMWVlZGQ2LTgyMjktNDM1Zi05YmQ1LWM2OWFiZDgxNzMzNyJ9',
         'path': {
-            'panel': '/html/body/section/div/div/div/iframe',
-            'confirmed': '.visualContainerHost > visual-container-repeat:nth-child(1) > visual-container-modern:nth-child(2) > transform:nth-child(1) > div:nth-child(1) > div:nth-child(3) > div:nth-child(1) > visual-modern:nth-child(2) > div:nth-child(1) > svg:nth-child(2) > g:nth-child(1) > text:nth-child(1)',
-            'interned': 'visual-container-modern.visual-container-component:nth-child(32) > transform:nth-child(1) > div:nth-child(1) > div:nth-child(3) > div:nth-child(1) > visual-modern:nth-child(2) > div:nth-child(1) > svg:nth-child(2) > g:nth-child(1) > text:nth-child(1)',
-            'recovered': 'visual-container-modern.visual-container-component:nth-child(5) > transform:nth-child(1) > div:nth-child(1) > div:nth-child(3) > div:nth-child(1) > visual-modern:nth-child(2) > div:nth-child(1) > svg:nth-child(2) > g:nth-child(1) > text:nth-child(1)',
-            'isolated': 'visual-container-modern.visual-container-component:nth-child(6) > transform:nth-child(1) > div:nth-child(1) > div:nth-child(3) > div:nth-child(1) > visual-modern:nth-child(2) > div:nth-child(1) > svg:nth-child(2) > g:nth-child(1) > text:nth-child(1)',
-            'dead': 'visual-container-modern.visual-container-component:nth-child(4) > transform:nth-child(1) > div:nth-child(1) > div:nth-child(3) > div:nth-child(1) > visual-modern:nth-child(2) > div:nth-child(1) > svg:nth-child(2) > g:nth-child(1) > text:nth-child(1)',
+            'confirmed': 'visual-container-modern.visual-container-component:nth-child(3) > transform:nth-child(1) > div:nth-child(1) > div:nth-child(3) > div:nth-child(1) > visual-modern:nth-child(2) > div:nth-child(1) > svg:nth-child(2) > g:nth-child(1) > text:nth-child(1)',
+            'interned': '.visualContainerHost > visual-container-repeat:nth-child(1) > visual-container-modern:nth-child(1) > transform:nth-child(1) > div:nth-child(1) > div:nth-child(3) > div:nth-child(1) > visual-modern:nth-child(2) > div:nth-child(1) > svg:nth-child(2) > g:nth-child(1) > text:nth-child(1)',
+            'recovered': 'visual-container-modern.visual-container-component:nth-child(6) > transform:nth-child(1) > div:nth-child(1) > div:nth-child(3) > div:nth-child(1) > visual-modern:nth-child(2) > div:nth-child(1) > svg:nth-child(2) > g:nth-child(1) > text:nth-child(1)',
+            'isolated': 'visual-container-modern.visual-container-component:nth-child(7) > transform:nth-child(1) > div:nth-child(1) > div:nth-child(3) > div:nth-child(1) > visual-modern:nth-child(2) > div:nth-child(1) > svg:nth-child(2) > g:nth-child(1) > text:nth-child(1)',
+            'dead': 'visual-container-modern.visual-container-component:nth-child(5) > transform:nth-child(1) > div:nth-child(1) > div:nth-child(3) > div:nth-child(1) > visual-modern:nth-child(2) > div:nth-child(1) > svg:nth-child(2) > g:nth-child(1) > text:nth-child(1)',
             'table': {
                 'cities': '.swipeable-blocked > div:nth-child(4) > div:nth-child(1) > visual-modern:nth-child(2) > div:nth-child(1) > div:nth-child(1) > div:nth-child(2) > div:nth-child(1) > div:nth-child(4) > div:nth-child(1) > div:nth-child(1) > div:nth-child(1) > div:nth-child(%)',
                 'cases': '.swipeable-blocked > div:nth-child(4) > div:nth-child(1) > visual-modern:nth-child(2) > div:nth-child(1) > div:nth-child(1) > div:nth-child(2) > div:nth-child(1) > div:nth-child(4) > div:nth-child(1) > div:nth-child(1) > div:nth-child(3) > div:nth-child(%)'
             },
-            'button': '/html/body/div[1]/ui-view/div/div[1]/div/div/div/div/exploration-container/exploration-container-modern/div/div/div/exploration-host/div/div/exploration/div/explore-canvas-modern/div/div[2]/div/div[2]/div[2]/visual-container-repeat/visual-container-modern[14]/transform/div/div[3]/div/visual-modern/div/div/div[2]/div[1]/div[2]/div/div[3]'
+            'button': '/html/body/div[1]/ui-view/div/div[1]/div/div/div/div/exploration-container/exploration-container-modern/div/div/div/exploration-host/div/div/exploration/div/explore-canvas-modern/div/div[2]/div/div[2]/div[2]/visual-container-repeat/visual-container-modern[15]/transform/div/div[3]/div/visual-modern/div/div/div[2]/div[1]/div[2]/div/div[3]/div'
         },
         'render' : {
             'models' : ['corona-1.jinja', 'corona-2.jinja'],
@@ -79,6 +78,49 @@ env = \
                     'xvfb': ''
                 }
             ]
+        }
+    },
+    'telegram' : {
+        'token' : '1365811077:AAFXUgzOk9N9lissQ0-ikTlODc9Hc43qX2A',
+        'messages' : {
+            'welcome' : \
+'''
+Bem vindo gerador ao de relatários.
+
+Escolha uma opção:
+
+1 - Gerar Previsão do tempo
+2 - Gerar Painel do Covid-19
+3 - Situação Alertas
+''',
+            'generate' : {
+                '1' : {
+                    'service' : 'cptec', 
+                    'warning' : 'Gerando arquivo de previsão do tempo, aguarde um momento...', 
+                    'success' : 'Arquivo de previsão diária gerado com sucesso!',
+                    'error'   : 'Opa! acho que algum problema está acontecendo... tenta de novo mais tarde, obrigado!'
+                },
+                '2' : {
+                    'service' : 'covid', 
+                    'warning' : 'Gerando arquivos do painel covid, aguarde um momento...',
+                    'success' : 'Painel covid-19 gerado com sucesso!',
+                    'error'   : 'Opa! acho que algum problema está acontecendo... tenta de novo mais tarde, obrigado!'
+                },
+                '3' : {
+                    'service' : 'alerts', 
+                    'warning' : 'Sistema de notificações de alerta: '
+                }
+            },
+            'unknown' : \
+'''
+Desculpe, não entedi sua solicitação.
+
+Aqui estão algumas opções:
+
+1 - Gerar Previsão do tempo
+2 - Gerar Painel do Covid-19
+3 - Situação Alertas
+'''
         }
     }
 }
