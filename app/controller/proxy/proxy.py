@@ -13,7 +13,6 @@ import requests
 
 os.environ['MOZ_HEADLESS'] = '1'  # -- Uncomment to show driver
 
-
 def covid():
     driver = webdriver.Firefox(executable_path=env.gecko)
 
@@ -86,34 +85,37 @@ def cptec(**kwargs):
     day = env.week_days[today.weekday()]
     month = today.strftime('%d/%m/%Y')
 
-    geocodelist = [
-        [
-            str(
-                requests.get(
-                    env.cptec['api'] + 
-                    env.cptec['route']['geocode'] + 
-                    city, timeout=100
-                ).json()[0]['geocode']
-            ) for city in cities
-        ] for cities in kwargs['cities']
-    ]
-
-    reponses = [
-        {
-            'day': day, 
-            'month': month,
-            'values' : 
-            [   
-                [ 
+    try:
+        geocodelist = [
+            [
+                str(
                     requests.get(
                         env.cptec['api'] + 
-                        env.cptec['route']['prevision'] + 
-                        code
-                    ).json()[code][month]['tarde']
-                ][0] for code in geocodes
-            ] 
-        } for geocodes in geocodelist
-    ]
+                        env.cptec['route']['geocode'] + 
+                        city, timeout=100
+                    ).json()[0]['geocode']
+                ) for city in cities
+            ] for cities in kwargs['cities']
+        ]
+
+        reponses = [
+            {
+                'day': day, 
+                'month': month,
+                'values' : 
+                [   
+                    [ 
+                        requests.get(
+                            env.cptec['api'] + 
+                            env.cptec['route']['prevision'] + 
+                            code
+                        ).json()[code][month]['tarde']
+                    ][0] for code in geocodes
+                ] 
+            } for geocodes in geocodelist
+        ]
+    except:
+        return None
 
     return reponses
 

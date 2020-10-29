@@ -55,6 +55,54 @@ env = \
             ]
         }
     },
+    'inmet' : {
+        'api' : 'http://apitempo.inmet.gov.br/estacao',
+        'stations' : {        
+            'SAPEZAL'                           :'A911',
+            'COTRIGUAÇÚ'                        :'A919',
+            'APIACAS'                           :'A910',
+            'JUÍNA'                             :'A920',
+            'JUARA'                             :'A9114',
+            'ALTA FLORESTA'                     :'A924',
+            'CARLINDA'                          :'A926',
+            'GUARANTÃ DO NORTE'                 :'A906',
+            'MATUPA'                            :'83214',
+            'SÃO JOSÉ DO XINGU'                 :'A942',
+            'SÃO FELIX DO ARAGUAIA'             :'A921',
+            'SERRA NOVA DOURADA'                :'A943',
+            'QUERÊNCIA'                         :'A916',
+            'CANARANA'                          :'83270',
+            'ÁGUA BOA'                          :'A908',
+            'NOVA XAVANTINA'                    :'83319',
+            'GAUCHA DO NORTE'                   :'A930',
+            'COMODORO'                          :'A913',
+            'BRASNORTE'                         :'A927',
+            'NOVA MARINGA'                      :'A928',
+            'SÃO JOSÉ DO RIO CLARO'             :'A903',
+            'CAMPO NOVO DOS PARECIS'            :'A905',
+            'VILA BELA DA SANTÍSSIMA TRINDADE'  :'A922',
+            'PONTES E LACERDA'                  :'A937',
+            'SALTO DO CEU'                      :'A936',
+            'TANGARÁ DA SERRA'                  :'A902',
+            'PORTO ESTRELA'                     :'A935',
+            'CACERES'                           :'A941',
+            'DIAMANTINO'                        :'83309',
+            'ROSARIO OESTE'                     :'A944',
+            'CUIABÁ'                            :'A901',
+            'SINOP'                             :'A917',
+            'SORRISO'                           :'A904',
+            'NOVA UBIRATÃ'                      :'A929',
+            'PARANATINGA'                       :'A915',
+            'SANTO ANTONIO DO LESTE'            :'A931',
+            'PRIMAVERA DO LESTE'                :'A923',
+            'POXOREO'                           :'83358',
+            'CAMPO VERDE'                       :'A912',
+            'RONDONÓPOLIS'                      :'A907',
+            'ITIQUIRA'                          :'A933',
+            'GUIRATINGA'                        :'A932',
+            'ALTO TAQUARI'                      :'A934'
+        }
+    },
     'covid': {
         'link': 'https://app.powerbi.com/view?r=eyJrIjoiYjJhNjdhMGQtNWRmNy00ZTM4LWE3YmUtMjFmMTg3YzE5ZjAzIiwidCI6ImNkMWVlZGQ2LTgyMjktNDM1Zi05YmQ1LWM2OWFiZDgxNzMzNyJ9',
         'path': {
@@ -89,7 +137,7 @@ env = \
         }
     },
     'telegram' : {
-        'token' : '1365811077:AAFXUgzOk9N9lissQ0-ikTlODc9Hc43qX2A',
+        'token' : open('token.txt').read(), 
         'messages' : {
             'welcome' : \
 '''

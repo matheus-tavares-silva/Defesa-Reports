@@ -3,3 +3,4 @@ venv
 .vscode
 geckodriver.log
 out/
+token.txt

@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sistema HIDRO – Telemetria</title>
+    <style>
+      @page {
+        size: A4;
+        margin: 0;
+      }
+
+      html,
+      body {
+        width: 210mm;
+        height: 297mm;
+        margin-left: auto;
+        margin-right: auto;
+      }
+
+      table,
+      th,
+      td {
+        border: 1px solid black;
+        border-collapse: collapse;
+      }
+
+      th {
+        background-color: lightblue;
+        width: 10%;
+      }
+
+      td {
+        text-align: center;
+      }
+    </style>
+  </head>
+  <body>
+    <div align="center">
+      <img
+        src="data:image/jpeg;base64,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"
+        alt=""
+      />
+      <p>
+        DEFESA CIVIL DO ESTADO DE MATO GROSSO
+        <br />
+        CORDENADORIA DE PREVENÇÃO E PREPARAÇÃO
+        <br />
+        GERENCIA DE PREPARAÇÃO
+      </p>
+    </div>
+
+    <div align="center">
+      <h2>Sistema Hidro - Telemetria</h2>
+      <p>
+        Fonte:
+        <a href="http://www.snirh.gov.br/gestorpcd/Mapa.aspx"
+          >http://www.snirh.gov.br/gestorpcd/Mapa.aspx</a
+        >
+      </p>
+    </div>
+
+    <div align="center">
+      <table>
+        <thead>
+          <th>Código</th>
+          <th>Nome</th>
+          <th>Data</th>
+          <th>Chuva(mm)</th>
+        </thead>
+        <tbody>
+          <!--RESULTS-->
+        </tbody>
+      </table>
+    </div>
+  </body>
+</html>
