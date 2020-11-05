@@ -1,0 +1,28 @@
+@page {
+  size: A4;
+  margin: 0;
+}
+
+html,
+body {
+  width: 210mm;
+  height: 297mm;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+table,
+th,
+td {
+  border: 1px solid black;
+  border-collapse: collapse;
+}
+
+th {
+  background-color: lightblue;
+  width: 10%;
+}
+
+td {
+  text-align: center;
+}

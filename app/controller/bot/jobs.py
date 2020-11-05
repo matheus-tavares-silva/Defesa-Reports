@@ -1,7 +1,7 @@
-from ..proxy import parallel
-from telegram import ParseMode
+from ..proxy import Proxy
+from telegram import ParseMode, ForceReply
 
-def jobs(update, context, env, timeout=120, interval=60):
+def jobs(update, context, env, timeout=120, interval=60, **kwargs):
 
     chat_id = update.effective_chat.id
     send_message = context.bot.send_message
@@ -12,7 +12,7 @@ def jobs(update, context, env, timeout=120, interval=60):
 
     def repeater(context):
 
-        responses = parallel('alerts')
+        responses = getattr(Proxy, env['service'])()
 
         for reponse in responses:
             context.bot.send_photo(chat_id=context.job.context, photo=open(
@@ -20,8 +20,8 @@ def jobs(update, context, env, timeout=120, interval=60):
 
     def once(context):
         send_message(chat_id=chat_id, text=env['warning'])
-
-        content = parallel(env['service'])
+        
+        content = getattr(Proxy, env['service'])(**kwargs)
 
         send_message(chat_id=chat_id, text=env['success'])
 
@@ -31,7 +31,6 @@ def jobs(update, context, env, timeout=120, interval=60):
         else:
             send_message(chat_id=chat_id, text=env['error'])
 
-    
     if(env['service'] == 'alerts'):
 
         if(not env['service'] in [job.name for job in context.job_queue.jobs()]):
@@ -44,7 +43,6 @@ def jobs(update, context, env, timeout=120, interval=60):
             context.job_queue.get_jobs_by_name(env['service'])[0].schedule_removal()
 
         send_message(chat_id=chat_id, text=(env['warning'] + status))
-        
     else:
         queue['once'](callback=once, name=env['service'], context=update.message.chat_id, when=0)
 
