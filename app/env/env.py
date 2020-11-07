@@ -149,7 +149,7 @@ env = \
         }
     },
     'telegram' : {
-        'token' : open('token.txt').read(), 
+        'token' : open('token.txt', 'r').read().rstrip('\n'), 
         'messages' : {
             'welcome' : \
 '''
