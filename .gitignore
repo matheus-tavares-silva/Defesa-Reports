@@ -4,3 +4,4 @@ venv
 geckodriver.log
 out/
 token.txt
+dockerfile
