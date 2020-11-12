@@ -1,0 +1,124 @@
+html,
+body {
+    font-family: 'Open Sans', sans-serif;
+    position: fixed;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.content {
+    position: fixed;
+    text-align: center;    
+}
+
+
+.header {
+    width: 1080px;
+    position: absolute;
+    bottom: 1870px;
+    font-size: 2.3rem;
+    font-weight: bolder;
+    color: #2e3983;
+}
+
+.content > .covid {
+    width: 1080px;
+    position: absolute;
+    bottom: 1635px;
+}
+
+.content > .covid > .title {
+    font-size: 2.3rem;
+}
+
+.content > .covid > .sub-title {
+    margin-top: -10px;
+    margin-bottom: -10px;
+    font-size: 1.9rem;
+}
+
+.content > .covid > .info {
+    margin-top: 10px;
+    color: white;
+}
+
+.content > .covid > .info .title{
+    font-size: 2.0rem;
+}
+
+.content > .covid > .info .data{
+    font-size: 3.6rem;
+}
+.content > .covid > .info > div {
+    float: left;
+    margin: 0 4% 0% 2%;
+}
+.content > .covid > .info > .died {
+    padding-left: 3.5%;
+}
+
+.content > .alert {
+    position: absolute;
+    width: 1080px;
+    bottom: 745px;
+}
+
+.content > .alert > .weather {
+    float: left;
+    width: 48.65%;
+    margin-left: 10px
+}
+
+.content > .alert > .weather > .weather-header  {
+    background-color: #e97d34d9;
+}
+
+.content > .alert > .weather > .weather-header > .main {
+    font-size: 2.5rem;
+    font-weight: bold;
+    color: black;
+}
+.content > .alert > .weather > .weather-header > .reference {
+    font-size: 1.2rem;
+    font-weight: normal;
+    color: black;
+    margin-top: -7px;
+}
+
+.content > .alert > .weather > .weather-info {
+    background-color: #e97d34d9;
+    text-align: justify;
+    font-weight: bold;
+    margin-top: -5px;
+}
+
+.content > .alert > .weather > .weather-img {
+    width: 100%;
+    height: 350px;
+}
+
+.content > .queimadas {
+    position: absolute;
+    bottom: 230px;
+    left: 10px;
+    width: 670px;
+    height: 450px;
+}
+
+.content > .queimadas >.queimadas-header {
+    background-color: #e97d34d9;
+}
+
+.content > .queimadas > .queimadas-header > .queimadas-info {
+    font-size: 1.6rem;
+    font-weight: 600;
+    margin: 0 50px 0 50px;
+    margin-top: -10px;
+    font-weight: bold;
+    
+}
+.content > .queimadas > .queimadas-header > .queimadas-title {
+    font-size: 2rem;
+    font-weight: bold;
+    color: white;
+}

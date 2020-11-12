@@ -19,6 +19,8 @@ class Proxy(Render):
 
     @staticmethod
     def covid(**kwargs):
+        only_content = kwargs.get('only_content', False)
+
         driver = webdriver.Firefox(executable_path=env.gecko)
 
         wait = WebDriverWait(driver, 120)
@@ -92,9 +94,9 @@ class Proxy(Render):
                 driver.quit()
             except:
                 pass
-
-        return Render(content, 'covid').content if content else content
-
+        
+        return Render(content, 'covid').content if not only_content and content else content
+        
     @staticmethod
     def cptec(**kwargs):
         kwargs.update(kwargs if kwargs else env.cptec['default'])
@@ -139,7 +141,16 @@ class Proxy(Render):
 
     @staticmethod
     def alerts(**kwargs):
-        kwargs.update(kwargs if kwargs else env.alerts['default'])
+        import operator
+
+        format_date  = lambda date : datetime.fromisoformat(date).strftime('%d/%m/%Y %H:%M')
+        response     = lambda link : {'url': link, 'source': html.fromstring(requests.get(link).content)}
+        compare_date = lambda date : datetime.strptime(date, '%d/%m/%Y %H:%M') > datetime.now()
+        search_for   = lambda contry, xml : country in [b.replace(' ', '', 1) if b[0] == ' ' else b for b in [a for a in xml.split(',')]]
+
+        country     = kwargs.get('country', 'Mato Grosso')
+        alert_dates = kwargs.get('date', [datetime.today().strftime('%Y/%m/%d')])
+        to_report   = kwargs.get('to_report', False)
 
         def polygon(coordinates=[]):
 
@@ -151,51 +162,48 @@ class Proxy(Render):
             lines.append(lines[0])
 
             return lines
-
-        def search_for(country, xml):
-
-            return country in [b.replace(' ', '', 1) if b[0] == ' ' else b for b in [a for a in xml.split(',')]]
-
-        def response(link): 
-            return {'url': link, 'source': html.fromstring(requests.get(link).content)}
         
-        try:
-            data = response(
-                (env.alerts['link'] + kwargs['date'])) if kwargs['date'] else env.alerts['link'] + datetime.today().strftime('%Y/%m')
+        contents = []
+        for alert_date in alert_dates:
+            try:
+                data = response(env.alerts['link'] + alert_date)
 
-            if(not kwargs['date']):
-                data = response('{}/{}'.format(data, [a.get('href')
-                                                        for a in response(data)['source'].xpath(env.alerts['path']['root'])][-1]))
+                if(not alert_date):
+                    data = response('{}/{}'.format(data, [a.get('href')
+                                                            for a in response(data)['source'].xpath(env.alerts['path']['root'])][-1]))
 
-            links = [[b, response(b)['source'].xpath(env.alerts['path']['root'])] for b in [
-                data['url'] + a.get('href')[1:] for a in data['source'].xpath(env.alerts['path']['root'])][1:]][0]
+                links = [
+                    [b, response(b)['source'].xpath(env.alerts['path']['root'])] for b in [
+                        data['url'] + a.get('href')[1:] for a in data['source'].xpath(env.alerts['path']['root'])
+                    ][1:]
+                ][0]
 
-            responses = [etree.XML(requests.get(
-                links[0] + c.get('href')[2:]).content) for c in links[1][1:]]
+                responses = [etree.XML(requests.get(links[0] + c.get('href')[2:]).content) for c in links[1][1:]]
+                
+                for xml in responses:
+                    position = 7 if xml[4].text in ['Update', 'Cancel'] else 6
 
-            content = []
-            format_date = lambda date : datetime.fromisoformat(date).strftime('%d/%m/%Y %H:%M')
-            for xml in responses:
-                position = 7 if xml[4].text in ['Update', 'Cancel'] else 6
+                    if(search_for(country, xml[position][19][1].text)):
+                        contents.append(
+                            {
+                                'type': xml[4].text,
+                                'event': xml[position][2].text,
+                                'onset': format_date(xml[position][7].text),
+                                'expires': format_date(xml[position][8].text),
+                                'headline': xml[position][10].text.split(':')[-1],
+                                'description': xml[position][11].text,
+                                'web': xml[position][13].text.split('/')[-1],
+                                'color': xml[position][15][1].text,
+                                'polygon': polygon(xml[position][20][1].text)
+                            }
+                        )
+            except:
+                pass
+        
+        if(to_report):
+            contents = list(filter(lambda content : compare_date(content['expires']) and content['type'] != 'Cancel', contents))
 
-                if(search_for(kwargs['country'], xml[position][19][1].text)):
-                    content.append(
-                        {
-                            'type': xml[4].text,
-                            'event': xml[position][2].text,
-                            'onset': format_date(xml[position][7].text),
-                            'expires': format_date(xml[position][8].text),
-                            'headline': xml[position][10].text.split(':')[-1],
-                            'description': xml[position][11].text,
-                            'web': xml[position][13].text.split('/')[-1],
-                            'color': xml[position][15][1].text,
-                            'polygon': polygon(xml[position][20][1].text)
-                        }
-                    )
-        except:
-            return None
-
-        return Render(content, 'alerts').content
+        return Render(contents, 'alerts', overwrite=to_report).content
 
     @staticmethod
     def inmet(**kwargs):
@@ -239,5 +247,51 @@ class Proxy(Render):
             return None
 
         return Render(data, 'inmet').content
-    
-    
+
+    @staticmethod
+    def report(**kwargs):
+        from ...models.db import read, write
+        fire_sum = lambda r : sum(list(map(lambda e: int(e.split(',')[1]) if e != '' else 0, r)))
+        get_abspath = lambda f : os.path.abspath(f)
+
+        filters = {
+            'date_start' : kwargs.get('date_start', (datetime.now() - timedelta(1)).strftime('%Y-%m-%d 00:00:00')),
+            'date_end'   : kwargs.get('date_end', datetime.now().strftime('%Y-%m-%d 23:59:59')),
+            'date_range' : [datetime.now().strftime('%Y/%m/%d'),(datetime.now() - timedelta(1)).strftime('%Y/%m/%d')]
+        }
+
+        icons = {
+            'Acumulo de Chuva' : get_abspath('app/view/static/icon/icon_acumulo-chuva.png'),
+            'Onda de Calor'    : get_abspath('app/view/static/icon/icon_onda-calor.png'),
+            'Chuvas Intensas'  : get_abspath('app/view/static/icon/icon_chuvas-intensas.png'),
+        }
+
+        json_data = read()
+        if(json_data['report']['updated'] == datetime.today().strftime('%d/%m/%Y')):
+            json_data['report'].update(
+                {
+                    'updated' : (datetime.today() + timedelta(1)).strftime('%d/%m/%y'),
+                    'number'  : json_data['report']['number'] + 1,
+                    'panel'  : json_data['report']['panel'] + 1
+                }
+            )
+            write('report', json_data)
+
+        response = requests.get(env.report['api']['foco'].format(filters['date_start'], filters['date_end'])).text.split('\n')[1:]
+        content = {
+            'today'      : datetime.today().strftime('%d/%m/%Y'),
+            'number'     : str(json_data['report']['number']),
+            'panel'      : str(json_data['report']['panel']),
+            'covid'      : Proxy.covid(only_content=True),
+            'alerts'     : Proxy.alerts(date=filters['date_range'], to_report=True),
+            'fires_acul' : fire_sum(response),
+            'icons'      : icons,
+            'fires'      :  [
+                {
+                    'city'      : element[0].replace('(MATO GROSSO)', ''),
+                    'fires'     : int(element[1]),
+                } for index, element in enumerate([content.split(',') for content in response if content != '']) if index <= 10
+            ]
+        }
+
+        return Render(content, 'report', method='selenium', use_temp=True, page_size={'width' : 1080, 'height' : 1995}, folium_zoom=8).content

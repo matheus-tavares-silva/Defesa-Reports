@@ -31,15 +31,23 @@ class Builder:
         
         return self.__execute(build)
     
-    def _build_by_selenium(self, link, size={'width' : 1920, 'height' : 1080}, get_by_file=True, wait_javascript=10):
+    def _build_by_selenium(self, link='', size={'width' : 1920, 'height' : 1080}, get_by_file=True, wait_javascript=10, use_temp=False):
 
         def build():
+            
             try:
                 driver = webdriver.Firefox(executable_path=gecko)
 
                 driver.set_window_size(size['width'], size['height'])
 
-                driver.get('file:///' + link) if get_by_file else driver.get(link)
+                if(use_temp):
+                    file_temp = tempfile.NamedTemporaryFile(mode='w', suffix='.html')
+
+                    file_temp.write(self.template)
+
+                    file_temp.flush()
+
+                driver.get('file:///' + link if link != '' else 'file://' + file_temp.name) if get_by_file else driver.get(link)
 
                 sleep(wait_javascript)
 
@@ -47,7 +55,11 @@ class Builder:
             except:
                 return None
             finally:
-                driver.quit()
+                try:
+                    driver.quit()
+                    file_temp.close()
+                except:
+                    pass
                         
             return self.file_out
 

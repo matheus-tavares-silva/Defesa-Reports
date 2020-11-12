@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600;700;800&display=swap" rel="stylesheet"> 
+    <style>
+
+        html,
+        body {
+            font-family: 'Open Sans', sans-serif;
+            position: fixed;
+            margin: 0 auto;
+            text-align: center;
+        }
+        
+        .content {
+            position: fixed;
+            text-align: center;    
+        }
+        
+        
+        .header {
+            width: 1080px;
+            position: absolute;
+            bottom: 1860px;
+            font-size: 2.3rem;
+            font-weight: 1000;
+            color: #2e3983;
+        }
+        
+        .content > .covid {
+            width: 1080px;
+            position: absolute;
+            bottom: 1635px;
+        }
+        
+        .content > .covid > .title {
+            font-size: 2.3rem;
+        }
+        
+        .content > .covid > .sub-title {
+            margin-top: -10px;
+            margin-bottom: -10px;
+            font-size: 1.9rem;
+        }
+        
+        .content > .covid > .info {
+            margin-top: 10px;
+            color: white;
+        }
+        
+        .content > .covid > .info .title{
+            font-size: 2.0rem;
+        }
+        
+        .content > .covid > .info .data{
+            font-size: 3.6rem;
+        }
+        .content > .covid > .info > div {
+            float: left;
+            margin: 0 4% 0% 2%;
+        }
+        .content > .covid > .info > .died {
+            padding-left: 3.5%;
+        }
+        
+        .content > .alert {
+            position: absolute;
+            width: 1080px;
+            bottom: 765px;
+        }
+        
+        .content > .alert > .weather {
+            float: left;
+            width: 48.65%;
+            margin-left: 10px
+        }
+        
+        .content > .alert > .weather > .weather-header > .main {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: black;
+        }
+        
+        .content > .alert > .weather > .weather-tag {
+            position: relative;
+            bottom: 330px;
+            right: 85px;
+        }
+        
+        
+        .content > .alert > .weather > .weather-tag > .weather-tag-info {
+            float: right;
+            font-weight: bold;
+            text-align: justify;
+            font-size: 1.05rem;
+            margin-left: -100%;
+        }
+        
+        .content > .alert > .weather > .weather-tag > .weather-tag-img {
+            width: 50px;
+            margin-right: 8px;
+            margin-right: 90px;
+        }       
+
+        .content > .alert > .weather > .weather-header > .reference {
+            font-size: 1.2rem;
+            font-weight: normal;
+            color: black;
+            margin-top: -7px;
+        }
+        
+        .content > .alert > .weather > .weather-info {
+            text-align: justify;
+            font-weight: bold;
+            margin-top: -60px;
+        }
+        
+        .content > .alert > .weather > .weather-img {
+            width: 100%;
+            height: 350px;
+        }
+        
+        .content > .queimadas {
+            position: absolute;
+            bottom: 230px;
+            left: 10px;
+            width: 670px;
+            height: 450px;
+        }
+        
+        .content > .queimadas >.queimadas-header {
+            background-color: #e97d34c9;
+        }
+        
+        .content > .queimadas > .queimadas-header > .queimadas-info {
+            font-size: 1.6rem;
+            font-weight: 600;
+            margin: 0 50px 0 50px;
+            margin-top: -10px;
+            font-weight: bold;
+            
+        }
+        .content > .queimadas > .queimadas-header > .queimadas-title {
+            font-size: 2rem;
+            font-weight: bold;
+            color: white;
+        }
+
+    </style>
+</head>
+<body>
+    <img src="{{ image }}" />
+    <div class="content">
+        <div class="header">{{ number }} - BOLETIM DE MONITORAMENTO DIÁRIO {{ today }}</div>
+        <div class="covid">
+            <div class="title">PAINEL EPIDEMIOLÓGICO Nº {{ panel }} COVID-19 MATO GROSSO</div>
+            <div class="sub-title">ATUALIZADO {{ covid['date'] }}</div>
+            <div class="info">
+                <div class="confirmed">
+                    <div class="title">Confirmados</div>
+                    <div class="data">{{ covid['confirmed'] }}</div>
+                </div>
+                <div class="rescued">
+                    <div class="title">Recuperados</div>
+                    <div class="data">{{ covid['recovered'] }}</div>
+                </div>
+                <div class="monitored">
+                    <div class="title">Monitorados</div>
+                    <div class="data">{{ covid['monitored'] }}</div>
+                </div>
+                <div class="died">
+                    <div class="title">Óbitos</div>
+                    <div class="data">{{ covid['dead'] }}</div>
+                </div>
+            </div>
+        </div>
+        <div class="alert">
+            {% for alert in alerts %}
+                {%if loop.index <= 2 %}
+                    <div class="weather">
+                        <div style="background-color: {{ alert['message']['color'] }}C9" class="weather-header">
+                            <div class="main">AVISO METEOROLÓGICO</div>
+                            <div class="reference">http://alert-as.inmet.gov.br/cv/emergencia/cap/{{ alert['message']['web'] }}</div>
+                        </div>
+                        <img src="file://{{ alert['file'] }}" class="weather-img">
+                        <div class="weather-tag">
+                            <img src="file://{{ icons[alert['message']['event']] }}" class="weather-tag-img">
+                            <div class="weather-tag-info">
+                                Inicio do Aviso: {{ alert['message']['onset'] }}
+                                <br>
+                                Fim do Aviso: {{ alert['message']['expires'] }}
+                            </div>
+                        </div>
+                        <div style="background-color: {{ alert['message']['color'] }}C9" class="weather-info">
+                            {{ alert['message']['description'] }}
+                        </div>
+                    </div>
+                {% endif %}
+            {% endfor %}
+        </div>
+        <div class="queimadas">
+            <div class="queimadas-header">
+                <div class="queimadas-title">QUEIMADAS POR MUNICÍPIO NO MT</div>
+                <div class="queimadas-info">Entre os dias {{ covid['date'][:5] }} e {{ today[:5] }}, foram registrados {{ fires_acul }} Focos. (AQUA)</div>
+            </div>
+            <canvas id="myChart"></canvas>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.4/dist/Chart.min.js"></script>
+    <script>
+        var ctx = document.getElementById('myChart').getContext('2d');
+        ctx.canvas.width  = window.innerWidth;
+        ctx.canvas.height = window.innerHeight;
+        var myChart = new Chart(ctx, {
+            type: 'horizontalBar',
+            data: {
+                labels: [
+                    
+                    {% for fire in fires %}
+                        '{{ fire['city'] }} - {{ fire['fires'] }}F',
+                    {% endfor %}
+                    
+                ],
+                datasets: [{
+                    data: [
+                    
+                    {% for fire in fires %}
+                        {{ fire['fires'] }},
+                    {% endfor %}
+                    
+                    ],
+                    backgroundColor: 'rgba(46, 57, 131)',
+                }]
+            },
+            options: {
+                maintainAspectRatio: false,
+                responsive: true,
+                layout: {
+                    padding: {
+                        left: 10,
+                    }
+                },
+                legend: {
+                    display: false,
+                },
+                scales: {
+                    yAxes: [{
+                        barPercentage: 1.2,
+                        ticks: {
+                            beginAtZero: true,
+                            fontColor: "white",
+                            fontSize: 17,
+                            fontStyle: "bold",
+                        }
+                    }],
+                    xAxes: [{
+                        ticks: {
+                            beginAtZero: true,
+                            fontColor: "white",
+                            fontSize: 18,
+                            fontStyle: "bold",
+                            padding: 50,
+                            stepSize: 2.5
+                        }
+                    }]
+                }
+            }
+        });
+
+
+        
+    </script>
+</body>
+</html>

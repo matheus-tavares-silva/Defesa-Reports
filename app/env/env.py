@@ -14,8 +14,6 @@ env = \
             'root': '/html/body/table/tr/td/a'
         },
         'default' : {
-            'country' : 'Mato Grosso',
-            'date' : None,
             'location' : [-12.38, -54.92]
         },
         'render' : {
@@ -148,6 +146,25 @@ env = \
             ]
         }
     },
+    'report' : {
+        'api' : {
+            'foco' : 'http://queimadas.dgi.inpe.br/queimadas/bdqueimadas/export-graphic-data?dateTimeFrom={}&dateTimeTo={}&satellites=AQUA_M-T&biomes=&risk=&continent=8&countries=33&states=03351&specialRegions=&id=firesByCity&protectedArea=&industrialFires=false'
+        },
+        'render' : {
+            'models' : ['report-1.jinja'],
+            'styles' : ['report-1.css'],
+            'images' : ['report-1.png'],
+            'out'    : 'report.png',
+            'options' : [
+                {
+                    'width': '1080',
+                    'height': '1920',
+                    'javascript-delay' : 3000,
+                    'xvfb': ''
+                }
+            ]
+        }
+    },
     'telegram' : {
         'token' : open('token.txt', 'r').read().rstrip('\n'), 
         'messages' : {
@@ -161,6 +178,7 @@ Escolha uma opção:
 2 - Gerar Painel do Covid-19
 3 - Situação Alertas
 4 - Dados de Estações do Inmet 
+5 - Gerar Boletim Diário
 ''',
             'generate' : {
                 '1' : {
@@ -193,6 +211,12 @@ Escolha uma opção:
                         'unknown'   : 'Desculpe, Não entendi a sua solicitação',
                         'info'      : 'Caso queira cancelar a operação apenas digite: \'cancelar\''
                     }
+                },
+                '5' : {
+                    'service' : 'report', 
+                    'warning' : 'Gerando arquivos do boletim diário, aguarde um momento...',
+                    'success' : 'Boletim diário gerado com sucesso!',
+                    'error'   : 'Opa! algum problema está aconteceu... tenta de novo mais tarde, obrigado!'
                 }
             },
             'unknown' : \
@@ -205,6 +229,7 @@ Aqui estão algumas opções:
 2 - Gerar Painel do Covid-19
 3 - Situação Alertas
 4 - Dados de Estações do Inmet 
+5 - Gerar Boletim Diário
 '''
         }
     }
