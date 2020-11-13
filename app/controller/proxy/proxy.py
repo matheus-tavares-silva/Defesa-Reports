@@ -251,8 +251,9 @@ class Proxy(Render):
     @staticmethod
     def report(**kwargs):
         from ...models.db import read, write
-        fire_sum = lambda r : sum(list(map(lambda e: int(e.split(',')[1]) if e != '' else 0, r)))
+        fire_sum    = lambda r : sum(list(map(lambda e: int(e.split(',')[1]) if e != '' else 0, r)))
         get_abspath = lambda f : os.path.abspath(f)
+        today       = datetime.today().strftime('%d/%m/%Y')
 
         filters = {
             'date_start' : kwargs.get('date_start', (datetime.now() - timedelta(1)).strftime('%Y-%m-%d 00:00:00')),
@@ -267,7 +268,7 @@ class Proxy(Render):
         }
 
         json_data = read()
-        if(json_data['report']['updated'] == datetime.today().strftime('%d/%m/%Y')):
+        if(json_data['report']['updated'] != today):
             json_data['report'].update(
                 {
                     'updated' : (datetime.today() + timedelta(1)).strftime('%d/%m/%y'),
@@ -279,7 +280,7 @@ class Proxy(Render):
 
         response = requests.get(env.report['api']['foco'].format(filters['date_start'], filters['date_end'])).text.split('\n')[1:]
         content = {
-            'today'      : datetime.today().strftime('%d/%m/%Y'),
+            'today'      : today,
             'number'     : str(json_data['report']['number']),
             'panel'      : str(json_data['report']['panel']),
             'covid'      : Proxy.covid(only_content=True),

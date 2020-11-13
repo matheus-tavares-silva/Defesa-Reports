@@ -176,30 +176,56 @@
                 </div>
             </div>
         </div>
-        <div class="alert">
-            {% for alert in alerts %}
-                {%if loop.index <= 2 %}
-                    <div class="weather">
-                        <div style="background-color: {{ alert['message']['color'] }}C9" class="weather-header">
-                            <div class="main">AVISO METEOROLÓGICO</div>
-                            <div class="reference">http://alert-as.inmet.gov.br/cv/emergencia/cap/{{ alert['message']['web'] }}</div>
-                        </div>
-                        <img src="file://{{ alert['file'] }}" class="weather-img">
-                        <div class="weather-tag">
-                            <img src="file://{{ icons[alert['message']['event']] }}" class="weather-tag-img">
-                            <div class="weather-tag-info">
-                                Inicio do Aviso: {{ alert['message']['onset'] }}
-                                <br>
-                                Fim do Aviso: {{ alert['message']['expires'] }}
-                            </div>
-                        </div>
-                        <div style="background-color: {{ alert['message']['color'] }}C9" class="weather-info">
-                            {{ alert['message']['description'] }}
+        {% if alerts|length <= 1 %}
+            <div class="alert" style="bottom: 685px !important;">
+                {% for alert in alerts %}
+                <div class="weather" style="width: 98.2% !important">
+                    <div style="background-color: {{ alert['message']['color'] }}C9" class="weather-header">
+                        <div class="main">AVISO METEOROLÓGICO</div>
+                        <div class="reference">http://alert-as.inmet.gov.br/cv/emergencia/cap/{{ alert['message']['web'] }}</div>
+                    </div>
+                    <img src="file://{{ alert['file'] }}" class="weather-img" style="width: 100% !important;  height: 450px !important;">
+                    <div class="weather-tag" style="bottom: 425px !important; right: 360px !important;">
+                        <img src="file://{{ icons[alert['message']['event']] }}" class="weather-tag-img" style="margin-right: -450px !important;">
+                        <div class="weather-tag-info">
+                            Inicio do Aviso: {{ alert['message']['onset'] }}
+                            <br>
+                            Fim do Aviso: {{ alert['message']['expires'] }}
                         </div>
                     </div>
-                {% endif %}
-            {% endfor %}
-        </div>
+                    <div style="background-color: {{ alert['message']['color'] }}C9" class="weather-info">
+                        {{ alert['message']['description'] }}
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <div class="alert">
+                {% for alert in alerts %}
+                    {%if loop.index <= 2 %}
+
+                        <div class="weather">
+                            <div style="background-color: {{ alert['message']['color'] }}C9" class="weather-header">
+                                <div class="main">AVISO METEOROLÓGICO</div>
+                                <div class="reference">http://alert-as.inmet.gov.br/cv/emergencia/cap/{{ alert['message']['web'] }}</div>
+                            </div>
+                            <img src="file://{{ alert['file'] }}" class="weather-img">
+                            <div class="weather-tag">
+                                <img src="file://{{ icons[alert['message']['event']] }}" class="weather-tag-img">
+                                <div class="weather-tag-info">
+                                    Inicio do Aviso: {{ alert['message']['onset'] }}
+                                    <br>
+                                    Fim do Aviso: {{ alert['message']['expires'] }}
+                                </div>
+                            </div>
+                            <div style="background-color: {{ alert['message']['color'] }}C9" class="weather-info">
+                                {{ alert['message']['description'] }}
+                            </div>
+                        </div>
+                    {% endif %}
+                {% endfor %}
+            </div>
+        {% endif %}
         <div class="queimadas">
             <div class="queimadas-header">
                 <div class="queimadas-title">QUEIMADAS POR MUNICÍPIO NO MT</div>
