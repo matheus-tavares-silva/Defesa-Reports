@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600;700;800&display=swap" rel="stylesheet"> 
+</head>
+<body>
+    <img src="file:///home/s0berano/Public/Defesa-Reports/app/view/static/image/local_report.png"/>
+    <div class="content">
+        <div class="header">
+            <div class="sub-title">{{ covid['Município'] }} - {{ today }}</div>
+        </div>
+        <div class="weather">
+            <div class="today">
+                <div class="date">{{ today }}</div>
+                <div class="info">{{ cptec['today']['resumo'] }}</div>
+                <img src="{{ cptec['today']['icone'] }}" class="wimg">
+                <div class="wind">{{ cptec['today']['int_vento'] }}</div>
+                <div class="temperature">
+                    <div class="min">{{ cptec['today']['temp_min'] }}ºC</div>
+                    <div class="max">{{ cptec['today']['temp_max'] }}ºC</div>
+                </div>
+                <div class="umidity">
+                    <div class="min">{{ cptec['today']['umidade_min'] }}%</div>
+                    <div class="max">{{ cptec['today']['umidade_max'] }}%</div>
+                </div>
+            </div>
+            <div class="tomorrow">
+                <div class="date">{{tomorrow}}</div>
+                <div class="info">{{ cptec['tomorrow']['resumo'] }}</div>
+                <img src="{{ cptec['tomorrow']['icone'] }}" class="wimg">
+                <div class="wind">{{ cptec['tomorrow']['int_vento'] }}</div>
+                <div class="temperature">
+                    <div class="min">{{ cptec['tomorrow']['temp_min'] }}ºC</div>
+                    <div class="max">{{ cptec['tomorrow']['temp_max'] }}ºC</div>
+                </div>
+                <div class="umidity">
+                    <div class="min">{{ cptec['tomorrow']['umidade_min'] }}%</div>
+                    <div class="max">{{ cptec['tomorrow']['umidade_max'] }}%</div>
+                </div>
+            </div>
+        </div>
+        <div class="covid">
+            <div class="confirm">{{ covid['Confirmado'] }}</div>
+            <div class="rescued">{{ covid['Monitorado'] }}</div>
+            <div class="died">{{ covid['Óbitos'] }}</div>
+            <div class="mortal">{{ covid['Mortalidade'] }}</div>
+            <!-- <div class="incidence">{{ covid['Incidência'] }}</div> -->
+        </div>
+    </div>
+</body>
+</html>

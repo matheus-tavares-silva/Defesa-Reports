@@ -78,3 +78,36 @@ def steps_inmet(dispatcher, message):
     )
     
     dispatcher.add_handler(conv_handler)
+
+def steps_local_report(dispatcher, message):
+    content = {}
+    filter_cancel = Filters.regex(r'\b(?:(?!cancelar)\w)+\b')
+
+    def start(update, context):
+        context.bot.send_message(chat_id=update.effective_chat.id, text=message['options']['info'])
+
+        update.message.reply_text(message['options']['cities'])
+
+        return 0
+    
+    def get_cities(update, context):
+        content['city'] = update.message.text
+
+        jobs(update, context, message, **content)
+
+        return ConversationHandler.END
+    
+    def cancel(update, context):
+        update.message.reply_text('Operação cancelada!')
+
+        return ConversationHandler.END
+    
+    conv_handler = ConversationHandler(
+        entry_points=[MessageHandler(Filters.regex(r'6'), start,  pass_job_queue=True)],
+        states={
+            0: [MessageHandler(filter_cancel, get_cities)],
+        },
+        fallbacks=[MessageHandler(Filters.regex(r'cancelar'), cancel)],
+    )
+    
+    dispatcher.add_handler(conv_handler)

@@ -2,7 +2,7 @@ from telegram.ext import Updater, CommandHandler, MessageHandler, Filters, Callb
 from telegram import ReplyKeyboardRemove
 from ...env import telegram
 from .jobs import jobs
-from .conversation import steps_inmet
+from .conversation import steps_inmet, steps_local_report
 import logging
 import datetime
 
@@ -29,6 +29,7 @@ def chat():
     start_handler = CommandHandler('start', start)
 
     steps_inmet(dispatcher, service('4'))
+    steps_local_report(dispatcher, service('6'))
 
     for handle in [
         start_handler, 

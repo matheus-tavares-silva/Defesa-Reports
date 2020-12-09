@@ -20,6 +20,7 @@ class Proxy(Render):
     @staticmethod
     def covid(**kwargs):
         only_content = kwargs.get('only_content', False)
+        city         = kwargs.get('city', '')
 
         driver = webdriver.Firefox(executable_path=env.gecko)
 
@@ -27,14 +28,21 @@ class Proxy(Render):
 
         size = 10
 
-        content = {'confirmed': '', 'interned': '',
-                'recovered': '', 'isolated': '', 'dead': '', 'cities': [], 'cases': []}
+        content = {
+            'confirmed': '', 
+            'interned': '',
+            'recovered': '', 
+            'isolated': '', 
+            'dead': '', 
+            'cities': [], 
+            'cases': []
+        }
 
         try:
             driver.get(env.covid['link'])
-            per1, per2 = False, False
+            ignore_first_page, order = False, False
 
-            if(per1): # Habilitar/Desabilitar caso o layout da pag mude
+            if(ignore_first_page): # Habilitar/Desabilitar caso o layout da pag mude
                 next_page = wait.until(
                     EC.element_to_be_clickable(
                         (By.XPATH, env.covid['path']['next'])
@@ -51,7 +59,7 @@ class Proxy(Render):
                         )
                     ).text.replace(',', '.')
 
-            if(per2): # Habilitar/Desabilitar caso o layout da pag mude
+            if(order): # Habilitar/Desabilitar caso o layout da pag mude
                 button = wait.until(
                     EC.element_to_be_clickable(
                         (By.XPATH, env.covid['path']['button'])
@@ -60,19 +68,23 @@ class Proxy(Render):
 
                 button.click()
 
-            for key in env.covid['path']['table']:
-                buffer = []
-                for i in range(size):
-                    element = wait.until(
-                        EC.visibility_of_element_located(
-                            (By.CSS_SELECTOR, env.covid['path']['table'][key].replace(
-                                '%', str(i + 1)))
+            if(city != ''):
+               print('hello')
+
+            else:
+                for key in env.covid['path']['table']:
+                    buffer = []
+                    for i in range(size):
+                        element = wait.until(
+                            EC.visibility_of_element_located(
+                                (By.CSS_SELECTOR, env.covid['path']['table'][key].replace(
+                                    '%', str(i + 1)))
+                            )
                         )
-                    )
 
-                    buffer.append(element.text.replace(',', '.'))
+                        buffer.append(element.text.replace(',', '.'))
 
-                content[key] = buffer
+                    content[key] = buffer
 
             monitored = str(
                 int(content['interned'].replace('.', '').replace(',', '')) + 
@@ -99,7 +111,8 @@ class Proxy(Render):
         
     @staticmethod
     def cptec(**kwargs):
-        kwargs.update(kwargs if kwargs else env.cptec['default'])
+        search_cities = kwargs.get('search_cities', env.cptec['default']['cities'])
+        only_data     = kwargs.get('only_data', False)
 
         today = date.today()
         day = env.week_days[today.weekday()]
@@ -115,27 +128,44 @@ class Proxy(Render):
                             city, timeout=100
                         ).json()[0]['geocode']
                     ) for city in cities
-                ] for cities in kwargs['cities']
+                ] for cities in search_cities
             ]
 
-            reponses = [
-                {
-                    'day': day, 
-                    'month': month,
-                    'values' : 
+            if(only_data):
+                reponses = [
                     [   
                         [ 
                             requests.get(
                                 env.cptec['api'] + 
                                 env.cptec['route']['prevision'] + 
                                 code
-                            ).json()[code][month]['tarde']
+                            ).json()[code]
                         ][0] for code in geocodes
-                    ] 
-                } for geocodes in geocodelist
-            ]
+                    ] for geocodes in geocodelist
+                ]
+                
+            else:
+                reponses = [
+                    {
+                        'day': day, 
+                        'month': month,
+                        'values' : 
+                        [   
+                            [ 
+                                requests.get(
+                                    env.cptec['api'] + 
+                                    env.cptec['route']['prevision'] + 
+                                    code
+                                ).json()[code][month]['tarde']
+                            ][0] for code in geocodes
+                        ] 
+                    } for geocodes in geocodelist
+                ]
         except:
-            return None
+            return []
+
+        if(only_data):
+            return reponses
 
         return Render(reponses, 'cptec').content
 
@@ -250,6 +280,7 @@ class Proxy(Render):
 
     @staticmethod
     def report(**kwargs):
+
         from ...models.db import read, write
         fire_sum    = lambda r : sum(list(map(lambda e: int(e.split(',')[1]) if e != '' else 0, r)))
         get_abspath = lambda f : os.path.abspath(f)
@@ -296,3 +327,38 @@ class Proxy(Render):
         }
 
         return Render(content, 'report', method='selenium', use_temp=True, page_size={'width' : 1080, 'height' : 1995}, folium_zoom=8).content
+    
+    @staticmethod
+    def local_report(**kwargs):
+        city        = kwargs.get('city', 'Poconé')
+        format_date = lambda input_date : input_date.strftime('%d/%m/%Y')  
+        
+        covid_content = requests.post(env.local_report['api'], data=env.local_report['payload']).json()
+        cptec_content = Proxy.cptec(search_cities=[[city]], only_data=True)
+    
+        if(covid_content and cptec_content):
+            today    = format_date(date.today())
+            tomorrow = format_date(date.today() + timedelta(days=1))
+
+            covid_data = [{
+                'Município'     : data['Filtros aplicados:\nCodigoIBGE não é 0000000 Municípios'].upper() if data['Filtros aplicados:\nCodigoIBGE não é 0000000 Municípios'] else 'N/A',
+                'Confirmado'    : data['Confirmados']           if data['Confirmados'] else 'N/A' ,
+                'Monitorado'    : data['Em Monitoramento']      if data['Em Monitoramento'] else 'N/A',
+                'Óbitos'        : data['Óbitos']                if data['Óbitos'] else 'N/A',
+                'Incidência'    : round(data['Incidência'],  1) if data['Incidência'] else 'N/A',
+                'Mortalidade'   : round(data['Mortalidade'], 1) if data['Mortalidade'] else 'N/A'
+            } for data in covid_content['data'] if list(data.items())[0][1] == city][0]
+
+            content = {
+                'today' : today[0:5],
+                'tomorrow' : tomorrow[0:5],
+                'covid' : covid_data,
+                'cptec' : {
+                    'today'     : cptec_content[0][0][today]['tarde'],
+                    'tomorrow'  : cptec_content[0][0][tomorrow]['tarde']
+                }
+            }
+
+            return Render(content, 'local_report').content
+        
+        return None

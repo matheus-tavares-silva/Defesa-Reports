@@ -1,0 +1,202 @@
+html,
+body {
+  font-family: "Open Sans", sans-serif;
+  position: fixed;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.content {
+  position: fixed;
+  text-align: center;
+}
+
+.header > .sub-title {
+  width: 1080px;
+  position: absolute;
+  bottom: 970px;
+  font-size: 2.2rem;
+  font-weight: 800;
+  color: #06316b;
+}
+
+.weather {
+  width: 1080px;
+  position: absolute;
+  bottom: 685px;
+}
+
+.weather > .today {
+  float: left;
+  margin-left: 125px;
+}
+
+.weather > .tomorrow {
+  float: right;
+  margin-right: 125px;
+}
+
+.weather > .today > .date {
+  font-weight: 800;
+  font-size: 2rem;
+  color: white;
+}
+
+.weather > .tomorrow > .date {
+  font-weight: 800;
+  font-size: 2rem;
+  color: white;
+}
+
+.weather > .today > .info {
+  font-size: 1.2rem;
+  font-weight: 100;
+  color: white;
+  width: 310px;
+}
+
+.weather > .tomorrow > .info {
+  font-size: 1.2rem;
+  font-weight: 100;
+  color: white;
+  width: 310px;
+}
+
+.weather > .today > .wimg {
+  position: absolute;
+  margin-left: 100px;
+  width: 120px;
+}
+
+.weather > .tomorrow > .wimg {
+  position: absolute;
+  margin-left: 100px;
+  width: 120px;
+}
+
+.weather > .today > .wind {
+  position: absolute;
+  font-weight: 100;
+  color: white;
+  font-size: 1.1rem;
+  margin-top: 65px;
+  margin-left: -30px;
+}
+
+.weather > .tomorrow > .wind {
+  position: absolute;
+  font-weight: 100;
+  color: white;
+  font-size: 1.1rem;
+  margin-top: 65px;
+  margin-left: -20px;
+}
+
+.weather > .today > .temperature {
+  width: 325px;
+  font-weight: 800;
+  font-size: 1.5rem;
+  position: absolute;
+  top: 265px;
+}
+.weather > .today > .temperature > .min {
+  float: left;
+  color: #38b6ff;
+}
+.weather > .today > .temperature > .max {
+  float: right;
+  color: #ed5050;
+}
+.weather > .today > .umidity {
+  width: 325px;
+  font-weight: 800;
+  font-size: 1.5rem;
+  position: absolute;
+  top: 345px;
+}
+.weather > .today > .umidity > .min {
+  float: left;
+  color: #ed5050;
+}
+.weather > .today > .umidity > .max {
+  float: right;
+  color: #38b6ff;
+}
+
+.weather > .tomorrow > .temperature {
+  width: 325px;
+  font-weight: 800;
+  font-size: 1.5rem;
+  position: absolute;
+  top: 265px;
+}
+.weather > .tomorrow > .temperature > .min {
+  float: left;
+  color: #38b6ff;
+}
+.weather > .tomorrow > .temperature > .max {
+  float: right;
+  color: #ed5050;
+}
+.weather > .tomorrow > .umidity {
+  width: 325px;
+  font-weight: 800;
+  font-size: 1.5rem;
+  position: absolute;
+  top: 345px;
+}
+.weather > .tomorrow > .umidity > .min {
+  float: left;
+  color: #ed5050;
+}
+.weather > .tomorrow > .umidity > .max {
+  float: right;
+  color: #38b6ff;
+}
+
+.covid {
+  width: 1080px;
+  position: absolute;
+  color: white;
+}
+
+.covid > .confirm {
+  width: 150px;
+  position: absolute;
+  font-weight: 800;
+  font-size: 2.8rem;
+  left: 85px;
+  bottom: 95px;
+}
+.covid > .rescued {
+  width: 150px;
+  position: absolute;
+  font-weight: 800;
+  font-size: 2.8rem;
+  left: 325px;
+  bottom: 95px;
+}
+
+.covid > .died {
+  width: 150px;
+  position: absolute;
+  font-weight: 800;
+  font-size: 2.8rem;
+  left: 565px;
+  bottom: 95px;
+}
+
+.covid > .mortal {
+  position: absolute;
+  font-size: 2.8rem;
+  font-weight: 800;
+  left: 950px;
+  bottom: 135px;
+}
+.covid > .incidence {
+  font-size: 2.8rem;
+  font-weight: 800;
+  position: absolute;
+  left: 950px;
+  bottom: 52.5px;
+}

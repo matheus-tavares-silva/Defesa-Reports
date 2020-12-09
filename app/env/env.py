@@ -124,6 +124,9 @@ env = \
                 'cities': 'visual-container-modern.visual-container-component:nth-child(15) > transform:nth-child(1) > div:nth-child(1) > div:nth-child(3) > div:nth-child(1) > visual-modern:nth-child(2) > div:nth-child(1) > div:nth-child(1) > div:nth-child(2) > div:nth-child(1) > div:nth-child(4) > div:nth-child(1) > div:nth-child(1) > div:nth-child(1) > div:nth-child(%)',
                 'cases': 'visual-container-modern.visual-container-component:nth-child(15) > transform:nth-child(1) > div:nth-child(1) > div:nth-child(3) > div:nth-child(1) > visual-modern:nth-child(2) > div:nth-child(1) > div:nth-child(1) > div:nth-child(2) > div:nth-child(1) > div:nth-child(4) > div:nth-child(1) > div:nth-child(1) > div:nth-child(3) > div:nth-child(%)'
             },
+            'search' : {
+                'cities' : '.bodyCells > div:nth-child(1) > div:nth-child(2) > div:nth-child(1)'
+            },
             'next' : '/html/body/div[1]/ui-view/div/div[2]/logo-bar/div/div/div/logo-bar-navigation/span/a[3]',
             'button': '/html/body/div[1]/ui-view/div/div[1]/div/div/div/div/exploration-container/exploration-container-modern/div/div/div/exploration-host/div/div/exploration/div/explore-canvas-modern/div/div[2]/div/div[2]/div[2]/visual-container-repeat/visual-container-modern[15]/transform/div/div[3]/div/visual-modern/div/div/div[2]/div[1]/div[2]/div/div[3]/div'
         },
@@ -165,6 +168,28 @@ env = \
             ]
         }
     },
+    'local_report' : {
+        'api' : 'https://run.blockspring.com/api_v2/blocks/query-public-google-spreadsheet?=&flatten=true',
+        'payload' : {
+            "query":"SELECT A, B, C, D, E, F, G, H\r\n",
+            "url":"https://docs.google.com/spreadsheets/d/1M_cCPE5J2JEsP1zmHt0_g9XjCehzrRPQ/edit#gid=588465278",
+            "_blockspring_spec":r'true',
+            "_blockspring_ui":r'true'
+        },
+        'render' : {
+            'models' : ['local_report-1.jinja'],
+            'styles' : ['local_report-1.css'],
+            'images' : ['local_report-1.png'],
+            'out'    : 'local_report.jpg',
+            'options' : [
+                {
+                    'width': '1080',
+                    'height': '1080',
+                    'xvfb': ''
+                }
+            ]
+        }
+    },
     'telegram' : {
         'token' : open('token.txt', 'r').read().rstrip('\n'), 
         'messages' : {
@@ -179,6 +204,7 @@ Escolha uma opção:
 3 - Situação Alertas
 4 - Dados de Estações do Inmet 
 5 - Gerar Boletim Diário
+6 - Gerar Boletim Local Diário
 ''',
             'generate' : {
                 '1' : {
@@ -217,6 +243,17 @@ Escolha uma opção:
                     'warning' : 'Gerando arquivos do boletim diário, aguarde um momento...',
                     'success' : 'Boletim diário gerado com sucesso!',
                     'error'   : 'Opa! algum problema está aconteceu... tenta de novo mais tarde, obrigado!'
+                },
+                '6' : {
+                    'service' : 'local_report', 
+                    'warning' : 'Gerando arquivos do boletim local diário, aguarde um momento...',
+                    'success' : 'Boletim local diário gerado com sucesso!',
+                    'error'   : 'Opa! algum problema está aconteceu... tenta de novo mais tarde, obrigado!',
+                    'options' : {
+                        'cities'    : 'Digite o nome da cidade a qual você deseja coletar os dados, ex:. \'Cuiabá\' ou \'Cáceres\':',
+                        'info'      : 'Caso queira cancelar a operação apenas digite: \'cancelar\'',
+                        'unknown'   : 'Desculpe, Não entendi a sua solicitação',
+                    }
                 }
             },
             'unknown' : \
@@ -230,6 +267,7 @@ Aqui estão algumas opções:
 3 - Situação Alertas
 4 - Dados de Estações do Inmet 
 5 - Gerar Boletim Diário
+6 - Gerar Boletim Local Diário
 '''
         }
     }

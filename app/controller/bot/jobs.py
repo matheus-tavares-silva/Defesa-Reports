@@ -23,13 +23,15 @@ def jobs(update, context, env, timeout=120, interval=60, **kwargs):
         
         content = getattr(Proxy, env['service'])(**kwargs)
 
-        send_message(chat_id=chat_id, text=env['success'])
-
         if(content):
+            send_message(chat_id=chat_id, text=env['success'])
+
             for data in content:
                 context.bot.send_photo(chat_id=chat_id, photo=open(data, 'rb'), timeout=timeout)
         else:
             send_message(chat_id=chat_id, text=env['error'])
+        
+
 
     if(env['service'] == 'alerts'):
 
