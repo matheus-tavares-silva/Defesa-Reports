@@ -299,7 +299,7 @@ class Proxy(Render):
         }
 
         json_data = read()
-        if(json_data['report']['updated'] != today):
+        if(json_data['report']['updated'] == today):
             json_data['report'].update(
                 {
                     'updated' : (datetime.today() + timedelta(1)).strftime('%d/%m/%y'),

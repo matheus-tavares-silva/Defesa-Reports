@@ -4,8 +4,4 @@
 
 #### You need to install:
 
-    sudo apt install wkhtmltopdf
-
-    sudo apt install firefox
-
-    sudo apt-get install xvfb
+    sudo apt install wkhtmltopdf firefox xvfb
