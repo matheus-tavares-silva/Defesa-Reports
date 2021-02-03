@@ -40,12 +40,20 @@ class Proxy(Render):
 
         try:
             driver.get(env.covid['link'])
-            ignore_first_page, order = False, False
+            next_page, back_page, order = False, True, False
 
-            if(ignore_first_page): # Habilitar/Desabilitar caso o layout da pag mude
+            if(next_page): # Habilitar/Desabilitar caso o layout da pag mude
                 next_page = wait.until(
                     EC.element_to_be_clickable(
                         (By.XPATH, env.covid['path']['next'])
+                    )
+                )
+
+                next_page.click()
+            elif(back_page):
+                next_page = wait.until(
+                    EC.element_to_be_clickable(
+                        (By.XPATH, env.covid['path']['back'])
                     )
                 )
 
@@ -113,6 +121,7 @@ class Proxy(Render):
     def cptec(**kwargs):
         search_cities = kwargs.get('search_cities', env.cptec['default']['cities'])
         only_data     = kwargs.get('only_data', False)
+        format_data   = kwargs.get('format_data', False)
 
         today = date.today()
         day = env.week_days[today.weekday()]
@@ -132,7 +141,7 @@ class Proxy(Render):
             ]
 
             if(only_data):
-                reponses = [
+              reponses = [
                     [   
                         [ 
                             requests.get(
@@ -143,7 +152,7 @@ class Proxy(Render):
                         ][0] for code in geocodes
                     ] for geocodes in geocodelist
                 ]
-                
+
             else:
                 reponses = [
                     {
@@ -161,10 +170,11 @@ class Proxy(Render):
                         ] 
                     } for geocodes in geocodelist
                 ]
+                
         except:
             return []
 
-        if(only_data):
+        if(format_data or only_data):
             return reponses
 
         return Render(reponses, 'cptec').content
@@ -299,10 +309,10 @@ class Proxy(Render):
         }
 
         json_data = read()
-        if(json_data['report']['updated'] == today):
+        if(json_data['report']['updated'] != today):
             json_data['report'].update(
                 {
-                    'updated' : (datetime.today() + timedelta(1)).strftime('%d/%m/%y'),
+                    'updated' : today,
                     'number'  : json_data['report']['number'] + 1,
                     'panel'  : json_data['report']['panel'] + 1
                 }
@@ -362,3 +372,56 @@ class Proxy(Render):
             return Render(content, 'local_report').content
         
         return None
+    
+    @staticmethod
+    def cptec_2(**kwargs):
+        from ...models.db import read, write
+        
+        today = datetime.today().strftime('%d/%m/%Y')
+
+        json_data = read()
+        if(json_data['report']['updated'] != today):
+            json_data['report'].update(
+                {
+                    'updated' : today,
+                    'number'  : json_data['report']['number'] + 1,
+                    'panel'  : json_data['report']['panel'] + 1
+                }
+            )
+            write('report', json_data)
+
+        content = []
+        for data in Proxy.cptec(format_data=True):
+            content.append({
+                'cptec'     : data,
+                'date'      : today,
+                'number'    : str(json_data['report']['number']),
+            })
+
+        
+        return Render(content, 'cptec_2').content
+    
+    @staticmethod
+    def covid_2(**kwargs):
+        from ...models.db import read, write
+        
+        today = datetime.today().strftime('%d/%m/%Y')
+
+        json_data = read()
+        if(json_data['report']['updated'] != today):
+            json_data['report'].update(
+                {
+                    'updated' : today,
+                    'number'  : json_data['report']['number'] + 1,
+                    'panel'  : json_data['report']['panel'] + 1
+                }
+            )
+            write('report', json_data)
+        
+        content = {
+            'covid'     : Proxy.covid(only_content=True),
+            'date'      : today,
+            'number'    : str(json_data['report']['number']),
+        }
+
+        return Render(content, 'covid_2').content

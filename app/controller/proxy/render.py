@@ -72,9 +72,9 @@ class Render(Builder):
         else:
             for index, template in enumerate(templates):
 
-                out = folder() + options['out'].replace('.', '-{}.'.format(index), -1)
-                config = options['options'][0] if len(options['options']) == 1 else options['options'][index]
-                css = paths['loader']['css'] + options['styles'][0] if len(options['styles']) == 1 else paths['loader']['css'] + options['styles'][index]
+                out     = folder() + options['out'].replace('.', '-{}.'.format(index), -1)
+                config  = options['options'][0] if len(options['options']) == 1 else options['options'][index]
+                css     = paths['loader']['css'] + options['styles'][0] if len(options['styles']) == 1 else paths['loader']['css'] + options['styles'][index]
 
                 if(self.__method == 'selenium'):
                     fileout.append(

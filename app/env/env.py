@@ -46,6 +46,21 @@ env = \
             ]
         }
     },
+    'cptec_2' : {
+        'render' : {
+            'models' : ['cptec_2-1.jinja'],
+            'styles' : ['cptec_2-1.css'],
+            'images' : ['cptec_2-1.png'],
+            'out'    : 'cptec_2.jpg',
+            'options' : [
+                {
+                    'width': '1080',
+                    'height': '1920',
+                    'xvfb': ''
+                }
+            ]
+        }
+    },
     'inmet' : {
         'api' : 'http://apitempo.inmet.gov.br/',
         'route' : {
@@ -115,24 +130,26 @@ env = \
     'covid': {
         'link': 'https://app.powerbi.com/view?r=eyJrIjoiYjJhNjdhMGQtNWRmNy00ZTM4LWE3YmUtMjFmMTg3YzE5ZjAzIiwidCI6ImNkMWVlZGQ2LTgyMjktNDM1Zi05YmQ1LWM2OWFiZDgxNzMzNyJ9',
         'path': {
-            'confirmed': 'visual-container-modern.visual-container-component:nth-child(4) > transform:nth-child(1) > div:nth-child(1) > div:nth-child(3) > div:nth-child(1) > visual-modern:nth-child(2) > div:nth-child(1) > svg:nth-child(2) > g:nth-child(1) > text:nth-child(1)',
+            'confirmed': 'visual-container-modern.visual-container-component:nth-child(5) > transform:nth-child(1) > div:nth-child(1) > div:nth-child(3) > div:nth-child(1) > visual-modern:nth-child(2) > div:nth-child(1) > svg:nth-child(2) > g:nth-child(1) > text:nth-child(1)',
 
-            'interned': '.fitToWidthOrigin > div:nth-child(2) > visual-container-repeat:nth-child(1) > visual-container-modern:nth-child(2) > transform:nth-child(1) > div:nth-child(1) > div:nth-child(3) > div:nth-child(1) > visual-modern:nth-child(2) > div:nth-child(1) > svg:nth-child(2) > g:nth-child(1) > text:nth-child(1)',
+            'interned': 'visual-container-modern.visual-container-component:nth-child(3) > transform:nth-child(1) > div:nth-child(1) > div:nth-child(3) > div:nth-child(1) > visual-modern:nth-child(2) > div:nth-child(1) > svg:nth-child(2) > g:nth-child(1) > text:nth-child(1)',
 
-            'recovered': 'visual-container-modern.visual-container-component:nth-child(7) > transform:nth-child(1) > div:nth-child(1) > div:nth-child(3) > div:nth-child(1) > visual-modern:nth-child(2) > div:nth-child(1) > svg:nth-child(2) > g:nth-child(1) > text:nth-child(1)',
+            'recovered': 'visual-container-modern.visual-container-component:nth-child(8) > transform:nth-child(1) > div:nth-child(1) > div:nth-child(3) > div:nth-child(1) > visual-modern:nth-child(2) > div:nth-child(1) > svg:nth-child(2) > g:nth-child(1) > text:nth-child(1)',
 
-            'isolated': 'visual-container-modern.visual-container-component:nth-child(8) > transform:nth-child(1) > div:nth-child(1) > div:nth-child(3) > div:nth-child(1) > visual-modern:nth-child(2) > div:nth-child(1) > svg:nth-child(2) > g:nth-child(1) > text:nth-child(1)',
+            'isolated': 'visual-container-modern.visual-container-component:nth-child(9) > transform:nth-child(1) > div:nth-child(1) > div:nth-child(3) > div:nth-child(1) > visual-modern:nth-child(2) > div:nth-child(1) > svg:nth-child(2) > g:nth-child(1) > text:nth-child(1)',
 
-            'dead': 'visual-container-modern.visual-container-component:nth-child(6) > transform:nth-child(1) > div:nth-child(1) > div:nth-child(3) > div:nth-child(1) > visual-modern:nth-child(2) > div:nth-child(1) > svg:nth-child(2) > g:nth-child(1) > text:nth-child(1)',
+            'dead': 'visual-container-modern.visual-container-component:nth-child(7) > transform:nth-child(1) > div:nth-child(1) > div:nth-child(3) > div:nth-child(1) > visual-modern:nth-child(2) > div:nth-child(1) > svg:nth-child(2) > g:nth-child(1) > text:nth-child(1)',
 
             'table': {
-                'cities': 'visual-container-modern.visual-container-component:nth-child(16) > transform:nth-child(1) > div:nth-child(1) > div:nth-child(3) > div:nth-child(1) > visual-modern:nth-child(2) > div:nth-child(1) > div:nth-child(1) > div:nth-child(2) > div:nth-child(1) > div:nth-child(4) > div:nth-child(1) > div:nth-child(1) > div:nth-child(1) > div:nth-child(%)',
-                'cases': 'visual-container-modern.visual-container-component:nth-child(16) > transform:nth-child(1) > div:nth-child(1) > div:nth-child(3) > div:nth-child(1) > visual-modern:nth-child(2) > div:nth-child(1) > div:nth-child(1) > div:nth-child(2) > div:nth-child(1) > div:nth-child(4) > div:nth-child(1) > div:nth-child(1) > div:nth-child(3) > div:nth-child(%)'
+                'cities': '.bodyCells > div:nth-child(1) > div:nth-child(1) > div:nth-child(1) > div:nth-child(%)',
+
+                'cases': '.bodyCells > div:nth-child(1) > div:nth-child(1) > div:nth-child(3) > div:nth-child(%)'
             },
             'search' : {
                 'cities' : '.bodyCells > div:nth-child(1) > div:nth-child(2) > div:nth-child(1)'
             },
             'next' : '/html/body/div[1]/ui-view/div/div[2]/logo-bar/div/div/div/logo-bar-navigation/span/a[3]',
+            'back' : '/html/body/div[1]/root/div/div/div[2]/logo-bar/div/div/div/logo-bar-navigation/span/a[1]',
             'button': '/html/body/div[1]/ui-view/div/div[1]/div/div/div/div/exploration-container/exploration-container-modern/div/div/div/exploration-host/div/div/exploration/div/explore-canvas-modern/div/div[2]/div/div[2]/div[2]/visual-container-repeat/visual-container-modern[15]/transform/div/div[3]/div/visual-modern/div/div/div[2]/div[1]/div[2]/div/div[3]/div'
         },
         'render' : {
@@ -146,6 +163,21 @@ env = \
                     'height': '1080',
                     'xvfb': ''
                 },
+                {
+                    'width': '1080',
+                    'height': '1920',
+                    'xvfb': ''
+                }
+            ]
+        }
+    },
+    'covid_2' : {
+        'render' : {
+            'models' : ['corona_2-1.jinja'],
+            'styles' : ['corona_2-1.css'],
+            'images' : ['corona_2-1.png'],
+            'out'    : 'corona_2.jpg',
+            'options' : [
                 {
                     'width': '1080',
                     'height': '1920',
@@ -210,6 +242,11 @@ Escolha uma opção:
 4 - Dados de Estações do Inmet 
 5 - Gerar Boletim Diário
 6 - Gerar Boletim Local Diário
+
+[Novos Modelos]
+
+7 - Gerar Previsão do tempo
+8 - Gerar novo Painel do Covid-19
 ''',
             'generate' : {
                 '1' : {
@@ -259,6 +296,18 @@ Escolha uma opção:
                         'info'      : 'Caso queira cancelar a operação apenas digite: \'cancelar\'',
                         'unknown'   : 'Desculpe, Não entendi a sua solicitação',
                     }
+                },
+                '7' : {
+                    'service' : 'cptec_2', 
+                    'warning' : 'Gerando arquivos da nova previsão do tempo, aguarde um momento...',
+                    'success' : 'Nova previsão do tempo gerada com sucesso!',
+                    'error'   : 'Opa! algum problema está aconteceu... tenta de novo mais tarde, obrigado!',
+                },
+                '8' : {
+                    'service' : 'covid_2', 
+                    'warning' : 'Gerando arquivos da novo painel do covid-19, aguarde um momento...',
+                    'success' : 'Nova previsão do tempo gerada com sucesso!',
+                    'error'   : 'Opa! algum problema está aconteceu... tenta de novo mais tarde, obrigado!',
                 }
             },
             'unknown' : \
@@ -273,6 +322,11 @@ Aqui estão algumas opções:
 4 - Dados de Estações do Inmet 
 5 - Gerar Boletim Diário
 6 - Gerar Boletim Local Diário
+
+[Novos Modelos]
+
+7 - Gerar Previsão do tempo
+8 - Gerar novo Painel do Covid-19
 '''
         }
     }

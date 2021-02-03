@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="pt-Br">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600;700;800&display=swap" rel="stylesheet"> 
+  </head>
+  <body>
+    <img src="file://{{ image }}"/>
+    <div class="content">
+      <div class="title">
+        <h1>{{ number }} - BOLETIM DE MONITORAMENTO DIÁRIO</h1>
+      </div>
+      <div class="display">
+        {% for value in cptec['values'] %}
+        <div class="climate">
+          <div class="local">
+            <h1 style="color: white">{{ value['entidade'] }}</h1>
+            <img src="{{ value['icone'] }}" />
+          </div>
+          <div class="temperature">
+            <h1 class="min">{{ value['temp_min'] }}</h1>
+            <h1 class="max">{{ value['temp_max'] }}</h1>
+          </div>
+        </div>
+        {% endfor %}
+        <div class="fonte">
+          <h2>Fonte: https://previsao.inmet.gov.br/</h2>
+        </div>
+        <div class="data">
+          <p>Hoje {{ date }}</p>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

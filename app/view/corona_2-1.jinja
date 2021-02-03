@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="pt-Br">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:200,300,400,500,600,700,800,900" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600;700;800&display=swap" rel="stylesheet"> 
+  </head>
+  <body>
+    <img src="file://{{ image }}"/>
+    <h4 class="title">{{ number }} - BOLETIM DE MONITORAMENTO DIÁRIO</h4> 
+    <h1 class="left-top info">{{ covid['confirmed'] }}</h1>
+    <h1 class="left-bottom info">{{ covid['recovered'] }}</h1>
+    <h1 class="right-top info">{{ covid['monitored'] }}</h1>
+    <h1 class="right-bottom info">{{ covid['dead'] }}</h1>
+    <ul class="list">
+      {% for i in range(covid['cases']|count) %} 
+        <li>{{ covid['cities'][i] }} ({{ covid['cases'][i] }})</li>
+      {% endfor %}
+    </ul>    
+    <div class="data">
+      <!-- <p>Hoje {{ date }}</p> -->
+    </div>
+  </body>
+</html>
