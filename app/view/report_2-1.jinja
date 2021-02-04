@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="pt-Br">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+  </head>
+  <body>
+    <img src="file://{{ image }}"/>
+    <h4 class="title">{{ number }} - BOLETIM DE MONITORAMENTO DIÁRIO</h4> 
+    <div class="event">
+      <img src="file://{{ alerts['file'] }}">
+    </div>
+    <div class="alerts">
+      {%- if alerts["message"]["type"] == 'Cancel' -%} 
+        Situação: <b>Cancelado</b> ❌<br>
+      {% elif alerts["message"]["type"] == 'Update' -%} 
+        Situação: <b>Atualizado</b> ❗<br>
+      {% else -%}
+        Situação: <b>Ativo</b> ✔<br>
+      {% endif %}
+      Aviso: <b>{{ alerts["message"]["event"] }}</b><br>
+      Severidade Grau: <b>{{ alerts["message"]["headline"] }}</b><br><br>
+      {% if alerts["message"]["type"] != 'Cancel' %} 
+      Início: {{ alerts["message"]["onset"] }}<br>
+      Término: {{ alerts["message"]["expires"] }}<br><br><br>
+      {% endif %}
+      {{ alerts["message"]["description"] }}<br><br><br><br><br>
+      http://alert-as.inmet.gov.br/cv/emergencia/cap/{{ alerts["message"]["web"] }}
+    </div>
+    <div class="data">
+      <p>Hoje {{ date }}</p>
+    </div>
+  </body>
+</html>

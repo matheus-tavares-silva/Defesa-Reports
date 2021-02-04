@@ -55,6 +55,7 @@ class Render(Builder):
                     'type'         : content['type'],
                     'event'        : content['event'],
                     'onset'        : content['onset'],
+                    'headline'     : content['headline'],
                     'expires'      : content['expires'],
                     'web'          : content['web'],
                     'description'  : '.'.join(content['description'].split('.')[1:]),

@@ -425,3 +425,36 @@ class Proxy(Render):
         }
 
         return Render(content, 'covid_2').content
+    
+    @staticmethod
+    def report_2(**kwargs):
+        from ...models.db import read, write
+
+        filters = {
+            'date_start' : kwargs.get('date_start', (datetime.now() - timedelta(1)).strftime('%Y-%m-%d 00:00:00')),
+            'date_end'   : kwargs.get('date_end', datetime.now().strftime('%Y-%m-%d 23:59:59')),
+            'date_range' : [datetime.now().strftime('%Y/%m/%d'),(datetime.now() - timedelta(1)).strftime('%Y/%m/%d')]
+        }
+        
+        today = datetime.today().strftime('%d/%m/%Y')
+
+        json_data = read()
+        if(json_data['report']['updated'] != today):
+            json_data['report'].update(
+                {
+                    'updated' : today,
+                    'number'  : json_data['report']['number'] + 1,
+                    'panel'  : json_data['report']['panel'] + 1
+                }
+            )
+            write('report', json_data)
+
+        content = []
+        for report in Proxy.alerts(date=filters['date_range'], to_report=True):
+            content.append({
+                'alerts'    : report,
+                'date'      : today,
+                'number'    : str(json_data['report']['number']),
+            })
+
+        return Render(content, 'report_2').content

@@ -1,7 +1,7 @@
 import folium
 import tempfile
 
-def build_folium_map(default_location=[-12.38, -54.92], data=[], zoom=6):
+def build_folium_map(default_location=[-12.38, -54.92], data=[], zoom=5):
 
     city = folium.Map(location=default_location, zoom_start=zoom)
 

@@ -205,6 +205,21 @@ env = \
             ]
         }
     },
+    'report_2' : {
+        'render' : {
+            'models' : ['report_2-1.jinja'],
+            'styles' : ['report_2-1.css'],
+            'images' : ['report_2-1.png'],
+            'out'    : 'report_2.jpg',
+            'options' : [
+                {
+                    'width': '1080',
+                    'height': '1920',
+                    'xvfb': ''
+                }
+            ]
+        }
+    },
     'local_report' : {
         'api' : 'https://run.blockspring.com/api_v2/blocks/query-public-google-spreadsheet?=&flatten=true',
         'payload' : {
@@ -247,6 +262,7 @@ Escolha uma opção:
 
 7 - Gerar Previsão do tempo
 8 - Gerar novo Painel do Covid-19
+9 - Gerar monitoramento climático
 ''',
             'generate' : {
                 '1' : {
@@ -305,8 +321,14 @@ Escolha uma opção:
                 },
                 '8' : {
                     'service' : 'covid_2', 
-                    'warning' : 'Gerando arquivos da novo painel do covid-19, aguarde um momento...',
-                    'success' : 'Nova previsão do tempo gerada com sucesso!',
+                    'warning' : 'Gerando arquivos do novo painel do covid-19, aguarde um momento...',
+                    'success' : 'Novo painel do covid-19 gerada com sucesso!',
+                    'error'   : 'Opa! algum problema está aconteceu... tenta de novo mais tarde, obrigado!',
+                },
+                '9' : {
+                    'service' : 'report_2', 
+                    'warning' : 'Gerando arquivos do monitoramento climátio, aguarde um momento...',
+                    'success' : 'Monitoramento climátio gerada com sucesso!',
                     'error'   : 'Opa! algum problema está aconteceu... tenta de novo mais tarde, obrigado!',
                 }
             },
@@ -327,6 +349,7 @@ Aqui estão algumas opções:
 
 7 - Gerar Previsão do tempo
 8 - Gerar novo Painel do Covid-19
+9 - Gerar monitoramento climático
 '''
         }
     }

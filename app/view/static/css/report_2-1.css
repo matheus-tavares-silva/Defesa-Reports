@@ -1,0 +1,57 @@
+html,
+body {
+  font-family: "Open Sans", sans-serif;
+  position: fixed;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.content {
+  position: absolute;
+  text-align: center;
+}
+
+.background {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: auto;
+}
+
+.title {
+  position: absolute;
+  bottom: 1815px;
+  width: 1080px;
+  font-size: 2.3rem;
+  font-weight: 900;
+}
+
+.event {
+  position: absolute;
+  left: 105px;
+  bottom: 1150px;
+}
+
+.event > img {
+  border-radius: 25px;
+  border: 15px solid #132d56;
+  width: 785px;
+  height: 590px;
+}
+
+.alerts {
+  position: absolute;
+  width: 785px;
+  text-align: left;
+  bottom: 345px;
+  left: 120px;
+  font-size: 1.95rem;
+}
+
+.data {
+  position: absolute;
+  bottom: 207px;
+  left: 650px;
+  font-size: 1.22rem;
+  font-weight: 600;
+}

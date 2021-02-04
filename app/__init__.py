@@ -3,6 +3,7 @@ from .controller.proxy import Proxy
 
 def run(): 
     
+    #Proxy.report_2()
     chat()
 
     return None
