@@ -243,7 +243,7 @@ env = \
         }
     },
     'telegram' : {
-        'token' : open('token.txt', 'r').read().rstrip('\n'), 
+        'token' : open('/root/Defesa-Reports/token.txt', 'r').read().rstrip('\n'), 
         'messages' : {
             'welcome' : \
 '''
