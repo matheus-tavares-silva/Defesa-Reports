@@ -130,20 +130,20 @@ env = \
     'covid': {
         'link': 'https://app.powerbi.com/view?r=eyJrIjoiYjJhNjdhMGQtNWRmNy00ZTM4LWE3YmUtMjFmMTg3YzE5ZjAzIiwidCI6ImNkMWVlZGQ2LTgyMjktNDM1Zi05YmQ1LWM2OWFiZDgxNzMzNyJ9',
         'path': {
-            'confirmed': 'visual-container-modern.visual-container-component:nth-child(5) > transform:nth-child(1) > div:nth-child(1) > div:nth-child(3) > div:nth-child(1) > visual-modern:nth-child(2) > div:nth-child(1) > svg:nth-child(2) > g:nth-child(1) > text:nth-child(1)',
+            'confirmed': '#pvExplorationHost > div > div > exploration > div > explore-canvas > div > div.canvasFlexBox > div > div.displayArea.disableAnimations.fitToWidthOrigin > div.visualContainerHost > visual-container-repeat > visual-container:nth-child(16) > transform > div > div:nth-child(4) > div > visual-modern > div > svg > g:nth-child(1) > text',
 
-            'interned': 'visual-container-modern.visual-container-component:nth-child(3) > transform:nth-child(1) > div:nth-child(1) > div:nth-child(3) > div:nth-child(1) > visual-modern:nth-child(2) > div:nth-child(1) > svg:nth-child(2) > g:nth-child(1) > text:nth-child(1)',
+            'interned': '#pvExplorationHost > div > div > exploration > div > explore-canvas > div > div.canvasFlexBox > div > div.displayArea.disableAnimations.fitToWidthOrigin > div.visualContainerHost > visual-container-repeat > visual-container:nth-child(1) > transform > div > div:nth-child(4) > div > visual-modern > div > svg > g:nth-child(1) > text',
 
-            'recovered': 'visual-container-modern.visual-container-component:nth-child(8) > transform:nth-child(1) > div:nth-child(1) > div:nth-child(3) > div:nth-child(1) > visual-modern:nth-child(2) > div:nth-child(1) > svg:nth-child(2) > g:nth-child(1) > text:nth-child(1)',
+            'recovered': '#pvExplorationHost > div > div > exploration > div > explore-canvas > div > div.canvasFlexBox > div > div.displayArea.disableAnimations.fitToWidthOrigin > div.visualContainerHost > visual-container-repeat > visual-container:nth-child(20) > transform > div > div:nth-child(4) > div > visual-modern > div > svg > g:nth-child(1) > text',
 
-            'isolated': 'visual-container-modern.visual-container-component:nth-child(9) > transform:nth-child(1) > div:nth-child(1) > div:nth-child(3) > div:nth-child(1) > visual-modern:nth-child(2) > div:nth-child(1) > svg:nth-child(2) > g:nth-child(1) > text:nth-child(1)',
+            'isolated': '#pvExplorationHost > div > div > exploration > div > explore-canvas > div > div.canvasFlexBox > div > div.displayArea.disableAnimations.fitToWidthOrigin > div.visualContainerHost > visual-container-repeat > visual-container:nth-child(21) > transform > div > div:nth-child(4) > div > visual-modern > div > svg > g:nth-child(1) > text',
 
-            'dead': 'visual-container-modern.visual-container-component:nth-child(7) > transform:nth-child(1) > div:nth-child(1) > div:nth-child(3) > div:nth-child(1) > visual-modern:nth-child(2) > div:nth-child(1) > svg:nth-child(2) > g:nth-child(1) > text:nth-child(1)',
+            'dead': '#pvExplorationHost > div > div > exploration > div > explore-canvas > div > div.canvasFlexBox > div > div.displayArea.disableAnimations.fitToWidthOrigin > div.visualContainerHost > visual-container-repeat > visual-container-group > transform > div > div.vcGroupBody.themableBackgroundColor.themableBorderColorSolid > visual-container:nth-child(3) > transform > div > div:nth-child(4) > div > visual-modern > div > svg > g:nth-child(1) > text',
 
             'table': {
-                'cities': '.bodyCells > div:nth-child(1) > div:nth-child(1) > div:nth-child(1) > div:nth-child(%)',
+                'cities': '#pvExplorationHost > div > div > exploration > div > explore-canvas > div > div.canvasFlexBox > div > div.displayArea.disableAnimations.fitToWidthOrigin > div.visualContainerHost > visual-container-repeat > visual-container:nth-child(26) > transform > div > div:nth-child(4) > div > visual-modern > div > div > div.tableEx > div.innerContainer > div.bodyCells > div > div:nth-child(1) > div:nth-child(1) > div:nth-child(%)',
 
-                'cases': '.bodyCells > div:nth-child(1) > div:nth-child(1) > div:nth-child(3) > div:nth-child(%)'
+                'cases': '#pvExplorationHost > div > div > exploration > div > explore-canvas > div > div.canvasFlexBox > div > div.displayArea.disableAnimations.fitToWidthOrigin > div.visualContainerHost > visual-container-repeat > visual-container:nth-child(26) > transform > div > div:nth-child(4) > div > visual-modern > div > div > div.tableEx > div.innerContainer > div.bodyCells > div > div:nth-child(1) > div:nth-child(3) > div:nth-child(%)'
             },
             'search' : {
                 'cities' : '.bodyCells > div:nth-child(1) > div:nth-child(2) > div:nth-child(1)'
